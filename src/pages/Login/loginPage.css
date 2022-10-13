@@ -1,0 +1,25 @@
+.login__page--container {
+  display: flex;
+  padding: 0 15%;
+  height: 100vh;
+}
+.login__page--left__section, .login__page--right__section {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.login__page--left__section {
+  align-items: flex-start;
+}
+.login__page--image__container {
+  width: 400px;
+  height: 400px;
+}
+.login__page--image__container img {
+  width: 100%;
+  height: 100%;
+}
+
+/*# sourceMappingURL=loginPage.css.map */

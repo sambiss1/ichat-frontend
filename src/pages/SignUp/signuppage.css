@@ -1,0 +1,25 @@
+.signup__page--container {
+  display: flex;
+  padding: 0 15%;
+  height: 100vh;
+}
+.signup__page--left__section, .signup__page--right__section {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.signup__page--left__section {
+  align-items: flex-start;
+}
+.signup__page--image__container {
+  width: 400px;
+  height: 400px;
+}
+.signup__page--image__container img {
+  width: 100%;
+  height: 100%;
+}
+
+/*# sourceMappingURL=signuppage.css.map */

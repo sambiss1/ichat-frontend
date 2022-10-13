@@ -1,23 +1,32 @@
-import logo from './logo.svg';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import LoginPage from "./pages/Login";
 import './App.css';
+import NotFound from "./pages/NotFound";
+// import SignUp from "./pages/SignUp";
+import SignUpPage from "./pages/SignUp";
+import Home from "./pages/Home";
 
 function App() {
+  let actualToken = localStorage.getItem("token")
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+        <Routes>
+          {actualToken === "undefined" ? (
+            <>
+              <Route index element={<LoginPage />} />
+              <Route path="/*"
+                element={actualToken ? <NotFound /> : <Navigate replace to="/" />} />
+              <Route path="/signup" element={<SignUpPage />} />
+            </>
+          ) :
+            <>
+              <Route index element={<Home />} />
+              <Route path="/*" element={<NotFound />} />
+              <Route path="/signup" element={<SignUpPage />} />
+            </>}
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

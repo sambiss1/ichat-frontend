@@ -1,0 +1,17 @@
+@use "sass:map";
+@import "../../styles/variables";
+@import "../../styles/__breakpoints";
+
+.login__form {
+    &--container {
+        @include display_flex__column;
+        align-items: flex-start;
+    }
+
+    &--submit__button {
+        background-color: $primary_color;
+        border: none;
+        color: $white_color;
+        padding: 15%;
+    }
+}
