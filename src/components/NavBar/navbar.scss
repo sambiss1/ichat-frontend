@@ -1,0 +1,58 @@
+@use "sass:map";
+@import "../../styles/variables";
+@import "../../styles/__breakpoints";
+
+
+.nav__bar {
+    &--container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &--menu {
+        list-style-type: none;
+
+    }
+
+    &--item {
+        width: 100px;
+        background-color: $primary_color;
+        border: 1px solid red;
+
+    }
+
+    &--icon {}
+
+}
+
+a {
+
+    text-decoration: none;
+    color: white;
+}
+
+.active {
+    color: $primary_color;
+
+    &:hover {
+        color: $white_color;
+    }
+}
+
+.no__active {
+    color: $secondary_color;
+}
+
+.isActive {
+    background-color: $white_color;
+    border-right: .2em solid yellow;
+    width: 100px;
+    background-color: $primary_color;
+    border: 1px solid red;
+
+    .nav__bar--icon {
+        color: $white_color;
+        background-color: $active_color;
+    }
+
+}

@@ -1,6 +1,7 @@
 import React from 'react';
+import { MdLogout } from "react-icons/md";
+import NavBar from '../NavBar';
 import "./sidebar.css";
-import { MdLogout } from "react-icons/md"
 
 const SideBar = () => {
     return (
@@ -14,9 +15,7 @@ const SideBar = () => {
 
                 />
             </div>
-            <div>
-
-            </div>
+            <NavBar />
             <div>
                 <MdLogout />
             </div>

@@ -1,0 +1,41 @@
+.nav__bar--container {
+  display: flex;
+  flex-direction: column;
+}
+.nav__bar--menu {
+  list-style-type: none;
+}
+.nav__bar--item {
+  width: 100px;
+  background-color: #5600FF;
+  border: 1px solid red;
+}
+a {
+  text-decoration: none;
+  color: white;
+}
+
+.active {
+  color: #5600FF;
+}
+.active:hover {
+  color: #FFFFFF;
+}
+
+.no__active {
+  color: #CECECE;
+}
+
+.isActive {
+  background-color: #FFFFFF;
+  border-right: 0.2em solid yellow;
+  width: 100px;
+  background-color: #5600FF;
+  border: 1px solid red;
+}
+.isActive .nav__bar--icon {
+  color: #FFFFFF;
+  background-color: #4B00E5;
+}
+
+/*# sourceMappingURL=navbar.css.map */
