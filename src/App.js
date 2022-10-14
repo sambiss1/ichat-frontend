@@ -6,13 +6,14 @@ import NotFound from "./pages/NotFound";
 import SignUpPage from "./pages/SignUp";
 import Home from "./pages/Home";
 
+
 function App() {
   let actualToken = localStorage.getItem("token")
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          {actualToken === "undefined" ? (
+          {!actualToken ? (
             <>
               <Route index element={<LoginPage />} />
               <Route path="/*"
