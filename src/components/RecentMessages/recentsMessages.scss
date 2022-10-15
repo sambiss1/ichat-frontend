@@ -10,7 +10,7 @@
 .recent__message {
     &--main__container {
         background-color: $white_color;
-        height: 80vh;
+        height: 70vh;
         border-radius: 15px;
         @include display_flex__column;
         align-items: flex-start;
