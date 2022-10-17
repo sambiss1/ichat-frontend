@@ -5,6 +5,7 @@ import "./recentsMessages.css";
 
 
 const RecentMessageCard = ({ props }) => {
+    let userId = localStorage.getItem("userID")
     return (
         <div className="recent__message--card">
             <div className="recent__message--user__picture">
@@ -15,8 +16,12 @@ const RecentMessageCard = ({ props }) => {
                 />
             </div>
             <div className="recent__message--user__message">
-                <h3>{props.participants[1].userName}</h3>
-                {/* {console.log({ messageText: props.messages })} */}
+                {      
+                    props.participants.filter(participant => participant._id !== userId).map((member) =>
+                    <h3 key={member._id}>{member.userName}</h3>
+                )
+
+                }
                 {
                     props.messages.length <= 'O' ? (<p>...</p>) : (
 
@@ -31,7 +36,7 @@ const RecentMessageCard = ({ props }) => {
 
 const RecentsMessages = () => {
     const [recentMessages, setRecentMessages] = useState([]);
-    const [participants, setParticipants] = useState([]);
+
     const [lastMessage, setLastMessage] = useState([])
 
     let token = `${localStorage.getItem("token")}`
@@ -62,8 +67,6 @@ const RecentsMessages = () => {
         fetchConversation();
     }, [])
 
-    console.log(participants)
-    console.log(lastMessage)
 
     return (
         <div className="recent__message--main__container">
@@ -77,7 +80,7 @@ const RecentsMessages = () => {
                             conversation &&
                             <RecentMessageCard
                                 props={conversation}
-                                key={conversation.participants._id}
+                                key={conversation._id}
 
                             />
                         )
