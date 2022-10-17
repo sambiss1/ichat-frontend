@@ -1,12 +1,19 @@
-import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { BiSend } from "react-icons/bi"
+import { BsCamera } from "react-icons/bs";
+import { UserContext } from '../../Context';
+import axios from 'axios';
 import "./conversations.css";
 
 const Conversation = () => {
     const [message, setMessage] = useState("")
     let conversationId = "63499ca9ef88e2c931d016b0";
     let sender = "6348641848310f2615dc7a19"
+    let token = localStorage.getItem("token")
+
+    const { contactPerson } = useContext(UserContext)
+
+
     const sendMessage = (event) => {
         event.preventDefault();
         axios({
@@ -28,18 +35,32 @@ const Conversation = () => {
             .catch(error => console.error(error))
 
     }
+
+
+    console.log(contactPerson)
     return (
         <div className="discussion__main--container">
+            <div>
+                <h3>{contactPerson.firstName} {contactPerson.lastName}</h3>
+            </div>
+            <div></div>
+            <form
+                onSubmit={sendMessage}
+                className="send__message--form"
+            >
+                <div
+                    className="send__message--content"
+                >
 
-            {/* <div>
-                <p>{message}</p>
-            </div> */}
-            <form onSubmit={sendMessage}>
-                <input
-                    type="text"
-                    onChange={(event) => setMessage(event.target.value)}
-
-                />
+                    <input
+                        type="text"
+                        onChange={(event) => setMessage(event.target.value)}
+                        className="send__message--text"
+                    />
+                    <BsCamera
+                        className="send__message--image"
+                    />
+                </div>
                 <button
                     type="submit"
                     className="send__message--button">

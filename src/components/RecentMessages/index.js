@@ -1,14 +1,28 @@
-import { React, useState, useEffect } from 'react'
+import { React, useState, useEffect, useContext } from 'react'
 
 import axios from 'axios';
+import { UserContext } from '../../Context';
 import "./recentsMessages.css";
 
 
 const RecentMessageCard = ({ props }) => {
     let userId = localStorage.getItem("userID")
+    // console.log(props.participants.filter(participant => participant._id !== userId))
+
+    const { setConversationId, setContactPersonId, getContactPerson } = useContext(UserContext);
+
     return (
-        <div className="recent__message--card">
-            <div className="recent__message--user__picture">
+        <div
+            className="recent__message--card"
+            onClick={() => {
+                // console.log(props._id);
+                setConversationId(props._id)
+                setContactPersonId(props.participants.filter(participant => participant._id !== userId).map((user) => user._id).join("").toString())
+                getContactPerson();
+            }}
+        >
+            <div
+                className="recent__message--user__picture">
                 <img
                     src="/images/user.png"
                     alt="profile pictur"
@@ -16,18 +30,18 @@ const RecentMessageCard = ({ props }) => {
                 />
             </div>
             <div className="recent__message--user__message">
-                {      
-                    props.participants.filter(participant => participant._id !== userId).map((member) =>
-                    <h3 key={member._id}>{member.userName}</h3>
-                )
+                {
+                    props.participants.filter(participant => participant._id !== userId).map((user) =>
+                        <h3 key={user._id}>{user.userName}</h3>
+                    )
 
                 }
                 {
                     props.messages.length <= 'O' ? (<p>...</p>) : (
-
                         <p>{props.messages.messageText}</p>
                     )
                 }
+
             </div>
 
         </div>
@@ -49,7 +63,7 @@ const RecentsMessages = () => {
                     url: "http://localhost:8000/api/conversations/",
                     headers: {
                         "Content-Type": 'application/json',
-                        "Authorization": `Bearer ${token}`
+                        "Authorization": `${token}`
                     }
                 }
             )

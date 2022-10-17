@@ -13,10 +13,9 @@ const Home = () => {
                 <SearchBar />
                 <RecentsMessages />
             </div>
-            <div>
-                <Conversation />
+             <Conversation />
 
-            </div>
+         
         </div>
     )
 }

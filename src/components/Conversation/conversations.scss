@@ -7,5 +7,53 @@
         height: 90vh;
         background-color: $white_color;
         border-radius: 15px;
+        position: relative;
+        padding: 0 2em;
+        width: 90%;
+        @include display_flex__column;
+    }
+}
+
+.send__message {
+    &--form {
+        position: absolute;
+        bottom: 2em;
+        // border: .1em solid red;
+        width: 90%;
+        @include display_flex__simple;
+        justify-content: space-between;
+        
+    }
+
+    &--content {
+        border-radius: 5px;
+        position: relative;
+        width: 90%;
+        background-color: #CECECE;
+        @include display_flex__simple;
+        align-items: center;
+    }
+    
+    &--text {
+     
+        background: transparent;
+        border: none;
+        width: 80%;
+        padding: .8em;
+        outline: none;
+    }
+
+    &--image {
+        position: absolute;
+        right: 2%;
+        font-size: 1.4em;
+    }
+
+    &--button {
+        border: none;
+        background-color: $primary_color;
+        color: $white_color;
+        padding: .8em;
+        border-radius: 5px;
     }
 }

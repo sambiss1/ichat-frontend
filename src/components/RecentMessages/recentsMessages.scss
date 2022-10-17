@@ -17,6 +17,7 @@
         padding: 1em;
         overflow-y: scroll;
 
+
     }
 
     &--list {
@@ -29,7 +30,14 @@
 
         align-items: flex-start;
         width: 90%;
+
         padding: 1em;
+        margin: 2em 0;
+
+        &:hover {
+            cursor: pointer;
+
+        }
 
 
     }
@@ -51,7 +59,7 @@
     &--user__message {
         @include display_flex__column;
         align-items: flex-start;
-       
+
         align-self: center;
 
 

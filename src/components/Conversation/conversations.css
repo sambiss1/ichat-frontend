@@ -2,6 +2,46 @@
   height: 90vh;
   background-color: #FFFFFF;
   border-radius: 15px;
+  position: relative;
+  padding: 0 2em;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+}
+
+.send__message--form {
+  position: absolute;
+  bottom: 2em;
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+}
+.send__message--content {
+  border-radius: 5px;
+  position: relative;
+  width: 90%;
+  background-color: #CECECE;
+  display: flex;
+  align-items: center;
+}
+.send__message--text {
+  background: transparent;
+  border: none;
+  width: 80%;
+  padding: 0.8em;
+  outline: none;
+}
+.send__message--image {
+  position: absolute;
+  right: 2%;
+  font-size: 1.4em;
+}
+.send__message--button {
+  border: none;
+  background-color: #5600FF;
+  color: #FFFFFF;
+  padding: 0.8em;
+  border-radius: 5px;
 }
 
 /*# sourceMappingURL=conversations.css.map */
