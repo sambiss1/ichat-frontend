@@ -15,8 +15,14 @@ const RecentMessageCard = ({ props }) => {
                 />
             </div>
             <div className="recent__message--user__message">
-                <h3>{props.userName}</h3>
-                <p>Dinner ? </p>
+                <h3>{props.participants[1].userName}</h3>
+                {/* {console.log({ messageText: props.messages })} */}
+                {
+                    props.messages.length <= 'O' ? (<p>...</p>) : (
+
+                        <p>{props.messages.messageText}</p>
+                    )
+                }
             </div>
 
         </div>
@@ -26,15 +32,29 @@ const RecentMessageCard = ({ props }) => {
 const RecentsMessages = () => {
     const [recentMessages, setRecentMessages] = useState([]);
     const [participants, setParticipants] = useState([]);
+    const [lastMessage, setLastMessage] = useState([])
+
+    let token = `${localStorage.getItem("token")}`
 
     useEffect(() => {
         const fetchConversation = async () => {
-            await axios.get("http://localhost:8000/api/conversations/")
+            await axios(
+                {
+                    method: "GET",
+                    url: "http://localhost:8000/api/conversations/",
+                    headers: {
+                        "Content-Type": 'application/json',
+                        "Authorization": `Bearer ${token}`
+                    }
+                }
+            )
                 .then((response) => {
                     setRecentMessages(response.data.conversations)
-                    console.log(recentMessages);
-                    // recentMessages.map((conversation) => setParticipants(conversation.participants))
-                    // console.log(participants)
+                    //  console.log(recentMessages);
+
+                    // console.log(recentMessages.map((conversation) => conversation.messages))
+                    setLastMessage(recentMessages.map((conversation) => conversation.messages))
+                    // console.log(participants)  
                 })
                 .catch(error => alert(error));
         }
@@ -43,6 +63,7 @@ const RecentsMessages = () => {
     }, [])
 
     console.log(participants)
+    console.log(lastMessage)
 
     return (
         <div className="recent__message--main__container">
@@ -53,18 +74,16 @@ const RecentsMessages = () => {
                     recentMessages.length <= 0 ?
                         (<h3>Loading...</h3>) :
                         (recentMessages.map((conversation) =>
-                            conversation.participants[1] &&
-
+                            conversation &&
                             <RecentMessageCard
-                                props={conversation.participants[1]}
+                                props={conversation}
                                 key={conversation.participants._id}
 
                             />
-
                         )
                         )
 
-                    
+
 
                 }
 

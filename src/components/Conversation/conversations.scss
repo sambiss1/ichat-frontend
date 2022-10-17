@@ -1,0 +1,11 @@
+@use "sass:map";
+@import "../../styles/variables";
+@import "../../styles/__breakpoints";
+
+.discussion__main {
+    &--container {
+        height: 90vh;
+        background-color: $white_color;
+        border-radius: 15px;
+    }
+}
