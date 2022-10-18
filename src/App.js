@@ -10,27 +10,26 @@ import { UserContext } from "./Context"
 
 
 function App() {
+  const { auth } = useContext(UserContext)
   let actualToken = localStorage.getItem("token")
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          {!actualToken ? (
+          {!actualToken && !auth ? (
             <>
               <Route index path="/" element={<LoginPage />} />
               <Route path="/*"
                 element={actualToken ? <NotFound /> : <Navigate replace to="/" />} />
               <Route path="/signup" element={<SignUpPage />} />
-              <Route path="/home" element={<Home />} />
+
 
             </>
           ) :
             <>
-              <Route index  element={<Home />} />
+              <Route index element={<Home />} />
               <Route path="/*" element={<NotFound />} />
               <Route path="/signup" element={<SignUpPage />} />
-              {/* <Route path="/login" element={<LoginPage />} /> */}
-
             </>}
         </Routes>
       </BrowserRouter>

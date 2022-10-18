@@ -2,12 +2,13 @@ import { createContext, useState } from "react";
 import axios from "axios";
 
 
-export const UserContext = createContext({ token: "", userId: "" })
+export const UserContext = createContext({ token: "", userId: "", auth: false })
 
 export const Provider = ({ children }) => {
 
     const [token, setToken] = useState("");
-    const [userId, setUserId] = useState("")
+    const [userId, setUserId] = useState("");
+    const [auth, setAuth] = useState(false);
 
     const [conversationId, setConversationId] = useState("");
     const [contactPersonId, setContactPersonId] = useState("");
@@ -18,7 +19,7 @@ export const Provider = ({ children }) => {
 
     const [selectedConversation, setSelectedConversation] = useState(false)
 
-   
+
 
     const getContactPerson = async () => {
 
@@ -55,6 +56,8 @@ export const Provider = ({ children }) => {
                 setDiscussion,
                 selectedConversation,
                 setSelectedConversation,
+                auth,
+                setAuth
             }
         }>
             {children}

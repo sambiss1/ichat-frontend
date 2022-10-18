@@ -1,12 +1,14 @@
-import { React, useState } from 'react';
+import { React, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import "./loginForm.css"
+import { UserContext } from '../../Context';
 
 const LoginForm = () => {
     const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const { setAuth } = useContext(UserContext)
 
     const loginFuntion = (event) => {
         event.preventDefault();
@@ -20,7 +22,8 @@ const LoginForm = () => {
             headers: { 'Content-Type': 'application/json' }
         })
             .then((response) => {
-                navigate("/home", { replace: true })
+                setAuth(true)
+                navigate("/", { replace: true })
                 window.localStorage.setItem("token", response.data.token)
                 window.localStorage.setItem("userID", response.data.payload.id)
             })
