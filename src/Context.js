@@ -1,6 +1,6 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+
 
 export const UserContext = createContext({ token: "", userId: "" })
 
@@ -9,56 +9,19 @@ export const Provider = ({ children }) => {
     const [token, setToken] = useState("");
     const [userId, setUserId] = useState("")
 
-    const [recentMessages, setRecentMessages] = useState([]);
-
     const [conversationId, setConversationId] = useState("");
     const [contactPersonId, setContactPersonId] = useState("");
-    const [contactPerson, setContactPerson] = useState({})
-
-    const [lastMessage, setLastMessage] = useState([])
-
-    // let token = `${localStorage.getItem("token")}`
+    const [contactPerson, setContactPerson] = useState({});
+    const [discussion, setDiscussion] = useState([]);
 
 
-    useEffect(() => {
-        const fetchAllConversation = async () => {
-            await axios(
-                {
-                    method: "GET",
-                    url: "http://localhost:8000/api/conversations/",
-                    headers: {
-                        "Content-Type": 'application/json',
-                        "Authorization": `Bearer ${token}`
-                    }
-                }
-            )
-                .then((response) => {
-                    setRecentMessages(response.data.conversations)
-                })
-                .catch(error => alert(error));
-        }
 
-        fetchAllConversation();
-    }, [])
+    const [selectedConversation, setSelectedConversation] = useState(false)
 
-    // const getAConversation = async () => {
-    //     await axios(
-    //         {
-    //             method: "GET",
-    //             url: "http://localhost:8000/api/conversations/",
-    //             headers: {
-    //                 "Content-Type": 'application/json',
-    //                 "Authorization": `Bearer ${token}`
-    //             }
-    //         }
-    //     )
-    //         .then((response) => {
-    //             setRecentMessages(response.data.conversations)
-    //         })
-    //         .catch(error => alert(error));
-    // }
+   
 
     const getContactPerson = async () => {
+
         await axios(
             {
                 method: "GET",
@@ -74,7 +37,6 @@ export const Provider = ({ children }) => {
 
             })
             .catch(error => alert(error));
-
     }
 
     return (
@@ -88,7 +50,11 @@ export const Provider = ({ children }) => {
                 setContactPersonId,
                 contactPerson,
                 setContactPerson,
-                getContactPerson
+                getContactPerson,
+                discussion,
+                setDiscussion,
+                selectedConversation,
+                setSelectedConversation,
             }
         }>
             {children}

@@ -8,6 +8,210 @@
   display: flex;
   flex-direction: column;
 }
+.discussion__main--content {
+  height: 100%;
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.no__selected--container {
+  height: 100%;
+  background-color: #FFFFFF;
+  border-radius: 15px;
+  position: relative;
+  padding: 0 2em;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.no__selected--content {
+  height: 50%;
+  background-color: #FFFFFF;
+  background: url("../../../public/message-typing.svg") no-repeat;
+  background-size: contain;
+  background-position: center center;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.contact__person--container {
+  border-bottom: 0.1em solid #CECECE;
+  display: flex;
+  padding: 1em 2em;
+}
+.contact__person--profile {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+.contact__person--profile img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.contact__person--details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+}
+
+.imessage {
+  background-color: #fff;
+  border-radius: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  font-family: "SanFrancisco";
+  font-size: 1.25rem;
+  margin: 0 auto 1rem;
+  max-width: 600px;
+  padding: 0.5rem 1.5rem;
+  width: 90%;
+  overflow-y: scroll;
+}
+
+.imessage div {
+  border-radius: 1.15rem;
+  line-height: 1.25;
+  max-width: 75%;
+  padding: 0.5rem 0.875rem;
+  position: relative;
+  word-wrap: break-word;
+}
+
+.imessage div::before,
+.imessage div::after {
+  bottom: -0.1rem;
+  content: "";
+  height: 1rem;
+  position: absolute;
+}
+
+div.from-me {
+  align-self: flex-end;
+  background-color: #248bf5;
+  color: #fff;
+}
+
+div.from-me::before {
+  border-bottom-left-radius: 0.8rem 0.7rem;
+  border-right: 1rem solid #248bf5;
+  right: -0.35rem;
+  transform: translate(0, -0.1rem);
+}
+
+div.from-me::after {
+  background-color: #fff;
+  border-bottom-left-radius: 0.5rem;
+  right: -40px;
+  transform: translate(-30px, -2px);
+  width: 10px;
+}
+
+div[class^=from-] {
+  margin: 0.5rem 0;
+  width: fit-content;
+}
+
+div.from-me ~ div.from-me {
+  margin: 0.25rem 0 0;
+}
+
+div.from-me ~ div.from-me:not(:last-child) {
+  margin: 0.25rem 0 0;
+}
+
+div.from-me ~ div.from-me:last-child {
+  margin-bottom: 0.5rem;
+}
+
+div.from-them {
+  align-items: flex-start;
+  background-color: #e5e5ea;
+  color: #000;
+}
+
+div.from-them:before {
+  border-bottom-right-radius: 0.8rem 0.7rem;
+  border-left: 1rem solid #e5e5ea;
+  left: -0.35rem;
+  transform: translate(0, -0.1rem);
+}
+
+div.from-them::after {
+  background-color: #fff;
+  border-bottom-right-radius: 0.5rem;
+  left: 20px;
+  transform: translate(-30px, -2px);
+  width: 10px;
+}
+
+div[class^=from-].emoji {
+  background: none;
+  font-size: 2.5rem;
+}
+
+div[class^=from-].emoji::before {
+  content: none;
+}
+
+.no-tail::before {
+  display: none;
+}
+
+.margin-b_none {
+  margin-bottom: 0 !important;
+}
+
+.margin-b_one {
+  margin-bottom: 1rem !important;
+}
+
+.margin-t_one {
+  margin-top: 1rem !important;
+}
+
+.message-tile {
+  margin: 10px 30px;
+  border-radius: 5px;
+  color: #222;
+  font-weight: 500;
+  padding: 10px 20px;
+  background-color: #ddd;
+  position: relative;
+  text-align: left;
+  z-index: 1;
+}
+.message-tile .pointer {
+  position: absolute;
+  bottom: 0;
+  height: 50px;
+  width: 50px;
+  background: #ddd;
+  z-index: -1;
+}
+.message-tile .me {
+  right: 0%;
+  transform: skew(-0.3rad);
+}
+.message-tile .other {
+  right: 0%;
+  transform: skew(0.3rad);
+  background-color: #5600FF;
+}
+
+.other-messages {
+  align-self: center;
+  justify-self: center;
+  background-color: #5600FF;
+  color: #fff;
+}
 
 .send__message--form {
   position: absolute;

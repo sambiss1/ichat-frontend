@@ -7,18 +7,34 @@ import "./recentsMessages.css";
 
 const RecentMessageCard = ({ props }) => {
     let userId = localStorage.getItem("userID")
-    // console.log(props.participants.filter(participant => participant._id !== userId))
 
-    const { setConversationId, setContactPersonId, getContactPerson } = useContext(UserContext);
-
+    let token = localStorage.getItem("token");
+    const { conversationId, setConversationId, setContactPersonId, getContactPerson, setDiscussion, setSelectedConversation } = useContext(UserContext);
+    const getAConversation = async () => {
+        await axios(
+            {
+                method: "GET",
+                url: `http://localhost:8000/api/conversations/${conversationId}`,
+                headers: {
+                    "Content-Type": 'application/json',
+                    "Authorization": `${token}`
+                }
+            }
+        )
+            .then((response) => {
+                setDiscussion(response.data)
+            })
+            .catch(error => alert(error));
+    }
     return (
         <div
             className="recent__message--card"
             onClick={() => {
-                // console.log(props._id);
                 setConversationId(props._id)
                 setContactPersonId(props.participants.filter(participant => participant._id !== userId).map((user) => user._id).join("").toString())
                 getContactPerson();
+                getAConversation();
+                setSelectedConversation(true)
             }}
         >
             <div
@@ -69,11 +85,11 @@ const RecentsMessages = () => {
             )
                 .then((response) => {
                     setRecentMessages(response.data.conversations)
-                    //  console.log(recentMessages);
 
-                    // console.log(recentMessages.map((conversation) => conversation.messages))
+
+
                     setLastMessage(recentMessages.map((conversation) => conversation.messages))
-                    // console.log(participants)  
+
                 })
                 .catch(error => alert(error));
         }

@@ -20,14 +20,11 @@ const LoginForm = () => {
             headers: { 'Content-Type': 'application/json' }
         })
             .then((response) => {
+                navigate("/home", { replace: true })
                 window.localStorage.setItem("token", response.data.token)
                 window.localStorage.setItem("userID", response.data.payload.id)
-                navigate("/", { replace: true })
             })
             .catch(error => console.error(error))
-
-        // localStorage.setItem("token", "logged")
-        navigate("/", { replace: true })
     }
     return (
         <form

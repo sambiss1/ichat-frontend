@@ -5,8 +5,8 @@ import './App.css';
 import NotFound from "./pages/NotFound";
 // import SignUp from "./pages/SignUp";
 import SignUpPage from "./pages/SignUp";
-import Home from "./pages/Home"; 
-import {UserContext} from "./Context"
+import Home from "./pages/Home";
+import { UserContext } from "./Context"
 
 
 function App() {
@@ -21,12 +21,16 @@ function App() {
               <Route path="/*"
                 element={actualToken ? <NotFound /> : <Navigate replace to="/" />} />
               <Route path="/signup" element={<SignUpPage />} />
+              <Route path="/home" element={<Home />} />
+
             </>
           ) :
             <>
-              <Route index path="/" element={<Home />} />
+              <Route index  element={<Home />} />
               <Route path="/*" element={<NotFound />} />
               <Route path="/signup" element={<SignUpPage />} />
+              {/* <Route path="/login" element={<LoginPage />} /> */}
+
             </>}
         </Routes>
       </BrowserRouter>
