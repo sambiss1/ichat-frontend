@@ -1,6 +1,6 @@
 import { React, useState } from 'react'
-import { HiChat } from "react-icons/hi"; 
-// HiUserGroup
+import { HiChat, HiUserGroup } from "react-icons/hi";
+
 import { NavLink } from 'react-router-dom';
 import "./navbar.css";
 
@@ -9,15 +9,19 @@ const NavBar = () => {
     return (
         <nav className="nav__bar--container">
             <ul className="nav__bar--menu">
-
-                <li >
-                    <NavLink
-                        to="/"
+                <NavLink
+                    to="/"
                     className={({ isActive }) => (isActive ? "isAvtive" : "nav__bar--item")}
-                    >
-                        <HiChat className="nav__bar--icon" />
-                    </NavLink>
-                </li>
+                >
+                    <HiChat className="nav__bar--icon" />
+                </NavLink>
+                <NavLink
+                    to="/user"
+                    className={({ isActive }) => (isActive ? "isAvtive" : "nav__bar--item")}
+                >
+                    <HiUserGroup className="nav__bar--icon" />
+                </NavLink>
+
                 {/* <li className="nav__bar--item">
                     
                     <HiUserGroup className="nav__bar--icon" />

@@ -64,21 +64,19 @@
 
 .imessage {
   background-color: #fff;
-  border-radius: 0.25rem;
   display: flex;
   flex-direction: column;
-  font-family: "SanFrancisco";
-  font-size: 1.25rem;
+  font-size: 0.8rem;
   margin: 0 auto 1rem;
   max-width: 600px;
   padding: 0.5rem 1.5rem;
   width: 90%;
   overflow-y: auto;
-  height: 60%;
+  height: 80%;
 }
 
 .imessage div {
-  border-radius: 1.15rem;
+  border-radius: 0.5rem;
   line-height: 1.25;
   max-width: 75%;
   padding: 0.5rem 0.875rem;
@@ -101,7 +99,7 @@ div.from-me {
 }
 
 div.from-me::before {
-  border-bottom-left-radius: 0.8rem 0.7rem;
+  border-bottom-left-radius: 0.5rem 0.5rem;
   border-right: 1rem solid #248bf5;
   right: -0.35rem;
   transform: translate(0, -0.1rem);
@@ -147,7 +145,7 @@ div.from-them:before {
 
 div.from-them::after {
   background-color: #fff;
-  border-bottom-right-radius: 0.5rem;
+  border-bottom-right-radius: 1rem;
   left: 20px;
   transform: translate(-30px, -2px);
   width: 10px;
@@ -160,22 +158,6 @@ div[class^=from-].emoji {
 
 div[class^=from-].emoji::before {
   content: none;
-}
-
-.no-tail::before {
-  display: none;
-}
-
-.margin-b_none {
-  margin-bottom: 0 !important;
-}
-
-.margin-b_one {
-  margin-bottom: 1rem !important;
-}
-
-.margin-t_one {
-  margin-top: 1rem !important;
 }
 
 .message-tile {
@@ -235,6 +217,9 @@ div[class^=from-].emoji::before {
   width: 80%;
   padding: 0.8em;
   outline: none;
+  word-wrap: break-word;
+  word-break: break-all;
+  height: auto;
 }
 .send__message--image {
   position: absolute;

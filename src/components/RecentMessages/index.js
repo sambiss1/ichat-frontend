@@ -53,8 +53,8 @@ const RecentMessageCard = ({ props }) => {
 
                 }
                 {
-                    props.messages.length <= 'O' ? (<p>...</p>) : (
-                        <p>{props.messages.messageText}</p>
+                    !props.messages ? (<p>...</p>) : (
+                        <p>{props.messages.pop().messageText}</p>
                     )
                 }
 

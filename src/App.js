@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./pages/Login";
 import './App.css';
 import NotFound from "./pages/NotFound";
-// import SignUp from "./pages/SignUp";
+import UsersPage from "./pages/UsersPage";
 import SignUpPage from "./pages/SignUp";
 import Home from "./pages/Home";
 import { UserContext } from "./Context"
@@ -30,6 +30,7 @@ function App() {
               <Route index element={<Home />} />
               <Route path="/*" element={<NotFound />} />
               <Route path="/signup" element={<SignUpPage />} />
+              <Route path="/user" element={<UsersPage />} />
             </>}
         </Routes>
       </BrowserRouter>
