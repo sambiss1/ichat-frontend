@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { BiSend } from "react-icons/bi"
 import { BsCamera } from "react-icons/bs";
 import { UserContext } from '../../Context';
 import axios from 'axios';
-import EmojiPicker from 'emoji-picker-react';
 
 import "./conversations.css";
 
@@ -42,47 +41,13 @@ const Conversation = () => {
     }
 
 
-    const [sender, setSender] = useState("")
-    // const [from]
-    // discussion.messages ? console.log(discussion.messages.filter(message => message.sender === userId).map(content => content.messageText)) : console.log('undefined')
 
-    // let sender = discussion.messages.filter(message => message.sender === userId).map(content => content.sender)
 
-    const getSender = () => {
-
-        let sender = discussion.messages.filter(message => message.sender === userId).map(content => content.sender)
-        setSender(discussion.messages.filter(message => message.sender === userId).map(content => content.sender))
-
-        discussion.messages ? setSender(discussion.messages.filter(message => message.sender === userId).map(content => content.sender)) : console.log("Waiting")
-
-        // console.log(sender)
-
-        // console.log(sender[0] === userId ? true : false)
-    }
-
-    useEffect(() => {
-        setTimeout(() => {
-            getSender()
-        }, 500)
-
-        // console.log(sender[0])
-
-    }, [])
-
-    console.log("UserId", userId)
-
-    // .map(content => content.messageText)
-    // discussion.messages ? console.log(discussion.messages.filter(message => message.sender !== userId && message.messageText)) : console.log("Waiting")
-
-    // discussion.messages ? console.log(discussion.messages.filter(message => message.sender !== userId).map(content => content.messageText)) : console.log("Waiting")
-   
-    discussion.messages ? console.log(discussion.messages.filter(message => message.sender === userId).map(content => content.messageText)) : console.log("Waiting")
     return (
         <div className="discussion__main--container">
 
             {selectedConversation ?
                 (
-
                     <div className="discussion__main--content">
 
                         <div className="contact__person--container">
@@ -104,31 +69,18 @@ const Conversation = () => {
                                 (<h3>Loading messages...</h3>) :
                                 (
                                     <div className="imessage">
-                                        {sender[0] === userId ? (
+                                        {discussion.messages.map(content => content.sender === userId ?
+                                            (<div className="from-me">
+                                                <p>{content.messageText}</p>
+                                            </div>) :
 
-                                            discussion.messages.filter(message => message.sender !== userId).map(content => content.messageText
-                                                &&
-
+                                            (
                                                 <div className="from-them">
                                                     <p>{content.messageText}</p>
                                                 </div>
                                             )
-
-                                        ) :
-                                            (
-                                                discussion.messages.filter(message => message.sender === userId).map(content => content.messageText
-                                                    &&
-                                                    <div className="from-me">
-                                                        <p>{content.messageText}</p>
-                                                    </div>
-                                                )
-                                            )
-
-                                        }
-
-
+                                        )}
                                     </div>)
-
                             }
 
                         </div>
@@ -145,7 +97,7 @@ const Conversation = () => {
                                     onChange={(event) => setMessage(event.target.value)}
                                     className="send__message--text"
                                 />
-                                {/* <EmojiPicker /> */}
+
                                 <BsCamera
                                     className="send__message--image"
                                 />
@@ -169,9 +121,6 @@ const Conversation = () => {
                 )
 
             }
-            {/* <div>
-
-            </div> */}
         </div>
     )
 }
