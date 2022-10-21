@@ -8,7 +8,8 @@ const LoginForm = () => {
     const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const { setAuth } = useContext(UserContext)
+    const { setAuth, socket, conversationId } = useContext(UserContext)
+    let room = conversationId
 
     const loginFuntion = (event) => {
         event.preventDefault();
@@ -26,6 +27,7 @@ const LoginForm = () => {
                 navigate("/", { replace: true })
                 window.localStorage.setItem("token", response.data.token)
                 window.localStorage.setItem("userID", response.data.payload.id)
+                socket.emit("login", { username })
             })
             .catch(error => console.error(error))
     }

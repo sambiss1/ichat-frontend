@@ -5,11 +5,18 @@ import { UserContext } from '../../Context';
 import "./recentsMessages.css";
 
 
-const RecentMessageCard = ({ props }) => {
-    let userId = localStorage.getItem("userID")
 
+
+const RecentMessageCard = ({ props }) => {
+    const { conversationId, socket, setConversationId, setContactPersonId, contactPersonId, setContactPerson, contactPerson, discussion, setDiscussion, lastMessage, setLastMessage, setSelectedConversation, response, setResponse } = useContext(UserContext);
+    
+    let userId = localStorage.getItem("userID")
     let token = localStorage.getItem("token");
-    const { conversationId, setConversationId, setContactPersonId, getContactPerson, setDiscussion, setSelectedConversation } = useContext(UserContext);
+
+    let room = conversationId
+
+
+
     const getAConversation = async () => {
         await axios(
             {
@@ -22,19 +29,51 @@ const RecentMessageCard = ({ props }) => {
             }
         )
             .then((response) => {
-                setDiscussion(response.data)
+                if (response.statusCode === 404) {
+                    return discussion
+                }
+                setDiscussion(response.data.messages)
             })
             .catch(error => alert(error));
     }
+
+    const getContactPerson = () => {
+
+        axios(
+            {
+                method: "GET",
+                url: `http://localhost:8000/api/user/${contactPersonId}`,
+                headers: {
+                    "Content-Type": 'application/json',
+                    "Authorization": `${token}`
+                }
+            }
+        )
+            .then((response) => {
+                setContactPerson(response.data)
+
+            })
+            .catch(error => alert(error));
+    }
+
+    const getThisConversation = (id) => {
+        setConversationId(id)
+    }
+
+
     return (
         <div
             className="recent__message--card"
             onClick={() => {
-                setConversationId(props._id)
+                socket.emit("join", { userId, room })
+                getThisConversation(props._id)
                 setContactPersonId(props.participants.filter(participant => participant._id !== userId).map((user) => user._id).join("").toString())
                 getContactPerson();
                 getAConversation();
                 setSelectedConversation(true)
+
+                // console.log("Contact person : ", contactPerson)
+
             }}
         >
             <div
@@ -47,15 +86,28 @@ const RecentMessageCard = ({ props }) => {
             </div>
             <div className="recent__message--user__message">
                 {
-                    props.participants.filter(participant => participant._id !== userId).map((user) =>
-                        <h3 key={user._id}>{user.userName}</h3>
-                    )
 
+                    props.participants.map(participant =>
+
+                        participant._id !== userId ?
+                            null
+                            :
+                            participant._id
+                    ).includes(userId)
+                        ?
+                        props.participants.map(member =>
+
+                            member._id !== userId &&
+                            <h3 key={member._id}> {member.userName}</h3>
+                        )
+                        :
+                        ""
                 }
                 {
-                    !props.messages ? (<p>...</p>) : (
-                        <p>{props.messages.pop().messageText}</p>
-                    )
+                    props.messages ?
+                        (<p>...</p>)
+                        :
+                        (<p>{props.messages.pop().messageText}</p>)
                 }
 
             </div>

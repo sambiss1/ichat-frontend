@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./pages/Login";
 import './App.css';
@@ -6,12 +6,22 @@ import NotFound from "./pages/NotFound";
 import UsersPage from "./pages/UsersPage";
 import SignUpPage from "./pages/SignUp";
 import Home from "./pages/Home";
-import { UserContext } from "./Context"
+import { UserContext } from "./Context";
+
 
 
 function App() {
-  const { auth } = useContext(UserContext)
+  const { auth, socket } = useContext(UserContext)
   let actualToken = localStorage.getItem("token")
+
+
+  useEffect(() => {
+
+    socket.on("http://localhost:8000/", data => {
+      console.log(data);
+    });
+    
+  }, []);
   return (
     <div className="App">
       <BrowserRouter>

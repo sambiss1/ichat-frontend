@@ -1,5 +1,7 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import axios from "axios";
+import socketIOClient from "socket.io-client"
+
 
 
 export const UserContext = createContext({ token: "", userId: "", auth: false })
@@ -14,12 +16,19 @@ export const Provider = ({ children }) => {
     const [contactPersonId, setContactPersonId] = useState("");
     const [contactPerson, setContactPerson] = useState({});
     const [discussion, setDiscussion] = useState([]);
+    const [username, setUsername] = useState("");
+    // const [copyContactPerson, setCopyContactPerson ] = useState([])
 
 
+
+    const socket = socketIOClient("http://localhost:8000/");
 
     const [selectedConversation, setSelectedConversation] = useState(false)
 
-
+    const [response, setResponse] = useState("");
+   
+    const [lastMessage, setLastMessage] = useState([]);
+    
 
     const getContactPerson = async () => {
 
@@ -45,6 +54,7 @@ export const Provider = ({ children }) => {
             {
                 token,
                 userId,
+                username, setUsername,
                 conversationId,
                 setConversationId,
                 contactPersonId,
@@ -57,7 +67,11 @@ export const Provider = ({ children }) => {
                 selectedConversation,
                 setSelectedConversation,
                 auth,
-                setAuth
+                setAuth,
+                response,
+                setResponse,
+                lastMessage, setLastMessage,
+                socket
             }
         }>
             {children}
