@@ -2,57 +2,65 @@
 @import "../../styles/variables";
 @import "../../styles/__breakpoints";
 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
 .nav__bar {
     &--container {
         display: flex;
         flex-direction: column;
+        width: 100%;
     }
 
     &--menu {
         list-style-type: none;
-
+        @include display_flex__column;
+        width: 100%;
+        // align-items: flex-end;
+        padding-left: 30%;
     }
 
     &--item {
-        width: 100px;
-        background-color: $primary_color;
-        border: 1px solid red;
-
+        width: 100%;
+        background-color: $active_color;
+        border-right: .4em solid $active_color;
+        align-self: flex-end;
+        border-radius: 10px 0 0 10px;
+        padding: .5em 0;
+        color: #FFFFFF;
+        margin: .5em 0;
+        .nav__bar--icon {
+                color: $white_color;
+                font-size: 1.5em;
+            }
     }
-
-    &--icon {}
-
 }
 
 a {
 
-    text-decoration: none;
-    color: white;
+    text-decoration: none !important;
 }
 
-.active {
-    color: $primary_color;
-
-    &:hover {
-        color: $white_color;
-    }
+a:visited {
+    text-decoration: none !important;
 }
 
-.no__active {
-    color: $secondary_color;
-}
 
 .isActive {
-    background-color: $white_color;
-    border-right: .2em solid yellow;
-    width: 100px;
-    background-color: $primary_color;
-    border: 1px solid red;
-
+   
+    width: 100%;
+    border-right: .4em solid yellow;
+    background-color: $active_color;
+    align-self: flex-end;
+    border-radius: 10px 0 0 10px;
+    padding: .5em 0;
+    margin: .5em 0;
     .nav__bar--icon {
         color: $white_color;
-        background-color: $active_color;
+        font-size: 1.5em;
     }
 
 }

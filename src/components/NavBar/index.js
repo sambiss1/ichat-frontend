@@ -1,31 +1,31 @@
 import { React, useState } from 'react'
 import { HiChat, HiUserGroup } from "react-icons/hi";
 
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import "./navbar.css";
 
 const NavBar = () => {
-    // const [isActive, setIsActive] = useState("isAvtive")
+    const [isActiveLink, setIsActiveLink] = useState("isActive")
+    const [noActiveLink, setNotActiveLink] = useState("nav__bar--item");
+    const location = useLocation();
+
     return (
         <nav className="nav__bar--container">
             <ul className="nav__bar--menu">
                 <NavLink
                     to="/"
-                    className={({ isActive }) => (isActive ? "isAvtive" : "nav__bar--item")}
+                    className={(location.pathname === "/" ? isActiveLink : noActiveLink)}
+
                 >
                     <HiChat className="nav__bar--icon" />
                 </NavLink>
                 <NavLink
                     to="/user"
-                    className={({ isActive }) => (isActive ? "isAvtive" : "nav__bar--item")}
+                    className={(location.pathname === "/user" ? isActiveLink : noActiveLink)}
+
                 >
                     <HiUserGroup className="nav__bar--icon" />
                 </NavLink>
-
-                {/* <li className="nav__bar--item">
-                    
-                    <HiUserGroup className="nav__bar--icon" />
-                </li> */}
             </ul>
         </nav>
     )
