@@ -72,8 +72,6 @@ const RecentMessageCard = ({ props }) => {
                 getAConversation();
                 setSelectedConversation(true)
 
-                // console.log("Contact person : ", contactPerson)
-
             }}
         >
             <div

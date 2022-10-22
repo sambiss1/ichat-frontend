@@ -40,11 +40,12 @@ const Conversation = () => {
             .then((response) => {
                 alert("Message send : ", response.data.newMessage.messages)
                 setDiscussion((prevState) => [...prevState, response.data.newMessage.messages])
-                socket.emit("send-message", {
-                    conversation: conversationId,
-                    sender: userId,
-                    message: message,
-                });
+                // socket.emit("send-message", {
+                //     conversation: conversationId,
+                //     sender: userId,
+                //     message: message,
+                // });
+                socket.emit("send-message", {message: "Hello, this is socket message"})
             })
             .catch(error => console.error(error))
 
@@ -53,36 +54,35 @@ const Conversation = () => {
 
     }
 
-    useEffect(() => {
-        const getAConversation = async () => {
-            await axios(
-                {
-                    method: "GET",
-                    url: `http://localhost:8000/api/conversations/${conversationId}`,
-                    headers: {
-                        "Content-Type": 'application/json',
-                        "Authorization": `${token}`
-                    }
+    const getAConversation = async () => {
+        await axios(
+            {
+                method: "GET",
+                url: `http://localhost:8000/api/conversations/${conversationId}`,
+                headers: {
+                    "Content-Type": 'application/json',
+                    "Authorization": `${token}`
                 }
-            )
-                .then((response) => {
-                    if (response.statusCode === 404) {
-                        return discussion
-                    }
-                    setDiscussion(response.data.messages)
+            }
+        )
+            .then((response) => {
+                if (response.statusCode === 404) {
+                    return discussion
+                }
+                setDiscussion(response.data.messages)
 
-                })
-                .catch(error => alert(error));
-        }
+            })
+            .catch(error => alert(error));
+    }
+    useEffect(() => {
         getAConversation();
 
-        socket.on("receive", (data) => {
-            setDiscussion((prevState) => [...prevState, data])
+        socket.on("receive-message", (data) => {
+            // setDiscussion((prevState) => [...prevState, data])
+            alert(data.messages)
         });
-        
-        console.log(discussion)
 
-    }, [])
+    }, [socket])
     return (
         <div className="discussion__main--container">
             {selectedConversation ?

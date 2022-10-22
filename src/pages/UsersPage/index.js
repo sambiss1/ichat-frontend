@@ -1,8 +1,9 @@
 import React from 'react'
 import Conversation from '../../components/Conversation'
 import RecentsMessages from '../../components/RecentMessages'
-import SearchBar from '../../components/SearchBar'
-import SideBar from '../../components/SideBar'
+import SearchBar from '../../components/SearchBar';
+import SideBar from '../../components/SideBar';
+import UserList from '../../components/UserList';
 
 const UsersPage = () => {
     return (
@@ -10,7 +11,7 @@ const UsersPage = () => {
             <SideBar />
             <div>
                 <SearchBar />
-                <RecentsMessages />
+                <UserList />
             </div>
             <Conversation />
 
