@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { BiSend } from "react-icons/bi"
 import { BsCamera } from "react-icons/bs";
 import { UserContext } from '../../Context';
@@ -11,6 +11,7 @@ const Conversation = () => {
     const [message, setMessage] = useState("")
 
     const [messageSend, setMessageSend] = useState("");
+    const messagesEndRef = useRef(null)
 
 
 
@@ -22,7 +23,6 @@ const Conversation = () => {
 
     const sendMessage = async (event) => {
         event.preventDefault();
-
 
         await axios({
             method: "POST",
@@ -40,17 +40,11 @@ const Conversation = () => {
             .then((response) => {
                 alert("Message send : ", response.data.newMessage.messages)
                 setDiscussion((prevState) => [...prevState, response.data.newMessage.messages])
-                // socket.emit("send-message", {
-                //     conversation: conversationId,
-                //     sender: userId,
-                //     message: message,
-                // });
-                socket.emit("send-message", {message: "Hello, this is socket message"})
             })
             .catch(error => console.error(error))
-
-        socket.emit("test-send", { message })
         event.target.reset();
+
+        socket.emit("send-message", { discussion: discussion })
 
     }
 
@@ -74,15 +68,19 @@ const Conversation = () => {
             })
             .catch(error => alert(error));
     }
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollTo(0, messagesEndRef.current.scrollHeight)
+    }
     useEffect(() => {
         getAConversation();
 
         socket.on("receive-message", (data) => {
-            // setDiscussion((prevState) => [...prevState, data])
-            alert(data.messages)
+            setDiscussion((prevState) => [...prevState, data])
         });
+        scrollToBottom();
 
-    }, [socket])
+    }, [socket, discussion])
     return (
         <div className="discussion__main--container">
             {selectedConversation ?
@@ -109,7 +107,7 @@ const Conversation = () => {
                                 (
                                     <div
                                         className="imessage"
-
+                                        ref={messagesEndRef}
                                     >
                                         {discussion.map(content => content.sender === userId ?
                                             (<div
