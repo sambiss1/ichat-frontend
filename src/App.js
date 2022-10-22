@@ -17,10 +17,10 @@ function App() {
 
   useEffect(() => {
 
-    socket.on("http://localhost:8000/", data => {
+    socket.on(`${process.env.DEV_MODE_SERVER_API}:${process.env.DEV_MODE_SERVER_PORT}`, data => {
       console.log(data);
     });
-    
+
   }, []);
   return (
     <div className="App">

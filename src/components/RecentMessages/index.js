@@ -9,7 +9,7 @@ import "./recentsMessages.css";
 
 const RecentMessageCard = ({ props }) => {
     const { conversationId, socket, setConversationId, setContactPersonId, contactPersonId, setContactPerson, contactPerson, discussion, setDiscussion, lastMessage, setLastMessage, setSelectedConversation, response, setResponse } = useContext(UserContext);
-    
+
     let userId = localStorage.getItem("userID")
     let token = localStorage.getItem("token");
 
@@ -21,7 +21,7 @@ const RecentMessageCard = ({ props }) => {
         await axios(
             {
                 method: "GET",
-                url: `http://localhost:8000/api/conversations/${conversationId}`,
+                url: `${process.env.DEV_MODE_SERVER_API}:${process.env.DEV_MODE_SERVER_PORT}/api/conversations/${conversationId}`,
                 headers: {
                     "Content-Type": 'application/json',
                     "Authorization": `${token}`
@@ -42,7 +42,7 @@ const RecentMessageCard = ({ props }) => {
         axios(
             {
                 method: "GET",
-                url: `http://localhost:8000/api/user/${contactPersonId}`,
+                url: `${process.env.DEV_MODE_SERVER_API}:${process.env.DEV_MODE_SERVER_PORT}/api/user/${contactPersonId}`,
                 headers: {
                     "Content-Type": 'application/json',
                     "Authorization": `${token}`

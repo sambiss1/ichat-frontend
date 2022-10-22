@@ -26,7 +26,7 @@ const Conversation = () => {
 
         await axios({
             method: "POST",
-            url: "http://localhost:8000/api/message/new",
+            url: `${process.env.DEV_MODE_SERVER_API}:${process.env.DEV_MODE_SERVER_PORT}/api/message/new`,
             data: {
                 conversationId: conversationId,
                 sender: userId,
@@ -52,7 +52,7 @@ const Conversation = () => {
         await axios(
             {
                 method: "GET",
-                url: `http://localhost:8000/api/conversations/${conversationId}`,
+                url: `${process.env.DEV_MODE_SERVER_API}:${process.env.DEV_MODE_SERVER_PORT}/api/conversations/${conversationId}`,
                 headers: {
                     "Content-Type": 'application/json',
                     "Authorization": `${token}`

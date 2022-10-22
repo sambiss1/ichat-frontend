@@ -14,7 +14,7 @@ const SignUpForm = () => {
         event.preventDefault();
         axios({
             method: "POST",
-            url: "http://localhost:8000/api/user/signup",
+            url: `${process.env.DEV_MODE_SERVER_API}:${process.env.DEV_MODE_SERVER_PORT}/api/user/signup`,
             data: {
                 firstName: firstName,
                 lastName: lastName,

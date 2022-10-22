@@ -51,7 +51,7 @@ const UserList = () => {
         await axios(
             {
                 method: "GET",
-                url: `http://localhost:8000/api/user/`,
+                url: `${process.env.DEV_MODE_SERVER_API}:${process.env.DEV_MODE_SERVER_PORT}/api/user/`,
                 headers: {
                     "Content-Type": 'application/json',
                     "Authorization": `${token}`

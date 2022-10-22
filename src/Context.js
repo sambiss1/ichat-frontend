@@ -21,7 +21,7 @@ export const Provider = ({ children }) => {
 
 
 
-    const socket = socketIOClient("http://localhost:8000/");
+    const socket = socketIOClient(`${process.env.DEV_MODE_SERVER_API}:${process.env.DEV_MODE_SERVER_PORT}`);
 
     const [selectedConversation, setSelectedConversation] = useState(false)
 
@@ -35,7 +35,7 @@ export const Provider = ({ children }) => {
         await axios(
             {
                 method: "GET",
-                url: `http://localhost:8000/api/user/${contactPersonId}`,
+                url: `${process.env.DEV_MODE_SERVER_API}:${process.env.DEV_MODE_SERVER_PORT}/api/user/${contactPersonId}`,
                 headers: {
                     "Content-Type": 'application/json',
                     "Authorization": `${token}`

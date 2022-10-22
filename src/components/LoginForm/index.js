@@ -15,7 +15,7 @@ const LoginForm = () => {
         event.preventDefault();
         axios({
             method: "POST",
-            url: "http://localhost:8000/api/user/login",
+            url: `${process.env.DEV_MODE_SERVER_API}:${process.env.DEV_MODE_SERVER_PORT}/api/user/login`,
             data: {
                 username: username,
                 password: password
