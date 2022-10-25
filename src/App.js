@@ -14,7 +14,7 @@ const App = () => {
   const actualToken = localStorage.getItem("token");
 
   useEffect(() => {
-    socket.on("http://localhost:8000", (data) => {
+    socket.on(`http://localhost:8000`, (data) => {
       console.log(data);
     });
   }, []);
