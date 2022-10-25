@@ -12,11 +12,11 @@ const SignUpPage = () => {
         </p>
       </div>
       <div className="signup__page--right__section">
-        <h1> iChat </h1>{" "}
+        <h1> iChat </h1>
         <div className="signup__page--image__container">
           <img src="/images/messages-amico.svg" alt="Message imag" />
-        </div>{" "}
-      </div>{" "}
+        </div>
+      </div>
     </div>
   );
 };
