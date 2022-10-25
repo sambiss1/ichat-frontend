@@ -9,7 +9,7 @@ import SignUpPage from "./pages/SignUp";
 import Home from "./pages/Home";
 import { UserContext } from "./Context";
 
-const App = () => {
+function App ()  {
   const { auth, socket } = useContext(UserContext);
   const actualToken = localStorage.getItem("token");
 
