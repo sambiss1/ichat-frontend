@@ -17,7 +17,7 @@ function App() {
 
   useEffect(() => {
 
-    socket.on(`${process.env.DEV_MODE_SERVER_API}:${process.env.DEV_MODE_SERVER_PORT}`, data => {
+    socket.on(`http://localhost:8000`, data => {
       console.log(data);
     });
 

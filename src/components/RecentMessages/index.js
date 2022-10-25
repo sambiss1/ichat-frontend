@@ -21,7 +21,7 @@ const RecentMessageCard = ({ props }) => {
         await axios(
             {
                 method: "GET",
-                url: `${process.env.DEV_MODE_SERVER_API}:${process.env.DEV_MODE_SERVER_PORT}/api/conversations/${conversationId}`,
+                url: `http://localhost:8000/api/conversations/${conversationId}`,
                 headers: {
                     "Content-Type": 'application/json',
                     "Authorization": `${token}`
@@ -42,7 +42,7 @@ const RecentMessageCard = ({ props }) => {
         axios(
             {
                 method: "GET",
-                url: `${process.env.DEV_MODE_SERVER_API}:${process.env.DEV_MODE_SERVER_PORT}/api/user/${contactPersonId}`,
+                url: `http://localhost:8000/api/user/${contactPersonId}`,
                 headers: {
                     "Content-Type": 'application/json',
                     "Authorization": `${token}`

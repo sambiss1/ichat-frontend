@@ -21,7 +21,7 @@ export const Provider = ({ children }) => {
 
 
 
-    const socket = socketIOClient(`${process.env.DEV_MODE_SERVER_API}:${process.env.DEV_MODE_SERVER_PORT}`);
+    const socket = socketIOClient(`http://localhost:8000`);
 
     const [selectedConversation, setSelectedConversation] = useState(false)
 

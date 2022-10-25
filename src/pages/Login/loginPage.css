@@ -13,9 +13,19 @@
 .login__page--left__section {
   align-items: flex-start;
 }
+.login__page--left__section h3 {
+  font-size: 2em;
+  margin: 0 0 0.8em;
+}
+.login__page--left__section p {
+  font-size: 0.8em;
+}
+.login__page--left__section p:last-child {
+  font-size: 1em;
+}
 .login__page--image__container {
-  width: 400px;
-  height: 400px;
+  width: 300px;
+  height: 300px;
 }
 .login__page--image__container img {
   width: 100%;
