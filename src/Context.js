@@ -22,7 +22,6 @@ export const Provider = ({ children }) => {
   const [contactPerson, setContactPerson] = useState({});
   const [discussion, setDiscussion] = useState([]);
   const [username, setUsername] = useState("");
-  // const [copyContactPerson, setCopyContactPerson ] = useState([])
 
   const socket = socketIOClient(`http://localhost:8000`);
 
