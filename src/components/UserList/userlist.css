@@ -4,7 +4,7 @@
 }
 
 .user__list--main__container {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   height: 70vh;
   border-radius: 15px;
   display: flex;
@@ -17,7 +17,7 @@
   width: 100%;
 }
 .user__list--card {
-  border-bottom: 0.1em solid #CECECE;
+  border-bottom: 0.1em solid #cecece;
   display: flex;
   align-items: flex-start;
   width: 90%;
@@ -46,7 +46,7 @@
   align-self: center;
 }
 .user__list--user__message p {
-  color: #CECECE;
+  color: #cecece;
   font-size: 0.8em;
 }
 
