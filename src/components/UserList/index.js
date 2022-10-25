@@ -1,27 +1,44 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { React, useEffect, useState } from 'react';
+import { React, useEffect, useState, useContext } from 'react';
 import "./userlist.css";
 import axios from 'axios';
+import { UserContext } from '../../Context';
 
 
 let userId = localStorage.getItem("userID");
-
+let token = localStorage.getItem("token");
 const UserCard = ({ props }) => {
+    const { conversationId, socket, setConversationId, setContactPersonId, contactPersonId, setContactPerson, contactPerson, discussion, setDiscussion, lastMessage, setLastMessage, setSelectedConversation, response, setResponse } = useContext(UserContext);
 
+
+    const createNewConversation =  () => {
+        console.log(`Logged user : ${userId}`);
+        console.log(`Other user : ${props._id}`);
+        let members= [userId, props._id];
+        axios({
+            method: "POST",
+            url: `http://localhost:8000/api/conversations/new`,
+            data: {
+                participants: [userId, props._id]      
+            },
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `${token}`
+            }
+        })
+            .then((response) => {
+                console.log(response.data.conversations)
+
+            })
+            .catch(error => console.error(error))
+
+    }
     return (
         <div
             className="user__list--card"
             onClick={() => {
-                // socket.emit("join", { userId, room })
-                // getThisConversation(props._id)
-                // setContactPersonId(props.participants.filter(participant => participant._id !== userId).map((user) => user._id).join("").toString())
-                // getContactPerson();
-                // getAConversation();
-                // setSelectedConversation(true)
-
-                // console.log("Contact person : ", contactPerson)
-
-            }}
+              createNewConversation()
+            }}  
         >
             <div
                 className="user__list--user__picture">
@@ -51,7 +68,7 @@ const UserList = () => {
         await axios(
             {
                 method: "GET",
-                url: `${process.env.DEV_MODE_SERVER_API}:${process.env.DEV_MODE_SERVER_PORT}/api/user/`,
+                url: `http://localhost:8000/api/user/`,
                 headers: {
                     "Content-Type": 'application/json',
                     "Authorization": `${token}`
@@ -66,8 +83,6 @@ const UserList = () => {
     }
     useEffect(() => {
         getAllUsers()
-        console.log(userList.filter(user => user._id !== userId));
-
     }, [])
     return (
         <div className="user__list--main__container">
