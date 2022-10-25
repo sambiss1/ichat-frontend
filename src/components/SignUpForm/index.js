@@ -1,4 +1,8 @@
-import { React, useState } from "react";
+/* eslint-disable no-console */
+/* eslint-disable no-alert */
+/* eslint-disable arrow-body-style */
+/* eslint-disable object-shorthand */
+import { useState } from "react";
 import axios from "axios";
 import "./signUpForm.css";
 import { useNavigate } from "react-router-dom";
@@ -25,7 +29,6 @@ const SignUpForm = () => {
       headers: { "Content-Type": "application/json" },
     })
       .then((response) => {
-        console.log(response);
         alert("Account created");
         window.localStorage.setItem("token", response.token);
         navigate("/", { replace: true });
@@ -39,7 +42,6 @@ const SignUpForm = () => {
           type="text"
           placeholder="first name"
           className="signup__form--firstname__input"
-          // value={firstName}
           onChange={(event) => {
             setFirstName(event.target.value);
           }}

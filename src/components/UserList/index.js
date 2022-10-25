@@ -1,33 +1,22 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { React, useEffect, useState, useContext } from "react";
+/* eslint-disable no-console */
+/* eslint-disable arrow-body-style */
+/* eslint-disable no-alert */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable no-underscore-dangle */
+
+import { useEffect, useState, useContext } from "react";
 import "./userlist.css";
 import axios from "axios";
 import { UserContext } from "../../Context";
 
-let userId = localStorage.getItem("userID");
-let token = localStorage.getItem("token");
+const userId = localStorage.getItem("userID");
+const token = localStorage.getItem("token");
+
 const UserCard = ({ props }) => {
-  const {
-    conversationId,
-    socket,
-    setConversationId,
-    setContactPersonId,
-    contactPersonId,
-    setContactPerson,
-    contactPerson,
-    discussion,
-    setDiscussion,
-    lastMessage,
-    setLastMessage,
-    setSelectedConversation,
-    response,
-    setResponse,
-  } = useContext(UserContext);
+  const { conversationId } = useContext(UserContext);
 
   const createNewConversation = () => {
-    console.log(`Logged user : ${userId}`);
-    console.log(`Other user : ${props._id}`);
-    let members = [userId, props._id];
+    // const members = [userId, props._id];
     axios({
       method: "POST",
       url: `http://localhost:8000/api/conversations/new`,
@@ -43,6 +32,8 @@ const UserCard = ({ props }) => {
         console.log(response.data.conversations);
       })
       .catch((error) => console.error(error));
+
+    console.log(conversationId);
   };
   return (
     <div
@@ -63,8 +54,6 @@ const UserCard = ({ props }) => {
 
 const UserList = () => {
   const [userList, setUserList] = useState([]);
-  let token = localStorage.getItem("token");
-  let userId = localStorage.getItem("userID");
 
   const getAllUsers = async () => {
     await axios({

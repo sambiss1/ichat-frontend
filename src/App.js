@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useContext, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./pages/Login";
@@ -8,12 +9,12 @@ import SignUpPage from "./pages/SignUp";
 import Home from "./pages/Home";
 import { UserContext } from "./Context";
 
-function App() {
+const App = () => {
   const { auth, socket } = useContext(UserContext);
-  let actualToken = localStorage.getItem("token");
+  const actualToken = localStorage.getItem("token");
 
   useEffect(() => {
-    socket.on(`http://localhost:8000`, (data) => {
+    socket.on("http://localhost:8000", (data) => {
       console.log(data);
     });
   }, []);
@@ -44,6 +45,6 @@ function App() {
       </BrowserRouter>
     </div>
   );
-}
+};
 
 export default App;

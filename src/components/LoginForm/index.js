@@ -1,4 +1,7 @@
-import { React, useContext, useState } from "react";
+/* eslint-disable no-console */
+/* eslint-disable arrow-body-style */
+/* eslint-disable object-shorthand */
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./loginForm.css";
@@ -8,8 +11,7 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { setAuth, socket, conversationId } = useContext(UserContext);
-  let room = conversationId;
+  const { setAuth, socket } = useContext(UserContext);
 
   const loginFuntion = (event) => {
     event.preventDefault();

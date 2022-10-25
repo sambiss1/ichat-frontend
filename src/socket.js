@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import socketIOClient from "socket.io-client";
 
 // export Socket

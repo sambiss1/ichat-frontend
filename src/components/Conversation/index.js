@@ -1,20 +1,22 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+/* eslint-disable no-console */
+/* eslint-disable no-alert */
+/* eslint-disable consistent-return */
+import { useContext, useEffect, useRef, useState } from "react";
 import { BiSend } from "react-icons/bi";
 import { BsCamera } from "react-icons/bs";
-import { UserContext } from "../../Context";
 import axios from "axios";
 
 import "./conversations.css";
-import { Socket } from "socket.io-client";
+import { UserContext } from "../../Context";
 
 const Conversation = () => {
   const [message, setMessage] = useState("");
 
-  const [messageSend, setMessageSend] = useState("");
+  // const [messageSend, setMessageSend] = useState("");
   const messagesEndRef = useRef(null);
 
-  let userId = localStorage.getItem("userID");
-  let token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userID");
+  const token = localStorage.getItem("token");
 
   const {
     contactPerson,
@@ -32,7 +34,7 @@ const Conversation = () => {
       method: "POST",
       url: `http://localhost:8000/api/message/new`,
       data: {
-        conversationId: conversationId,
+        conversationId,
         sender: userId,
         messageText: message,
       },
@@ -43,15 +45,16 @@ const Conversation = () => {
     })
       .then((response) => {
         alert("Message send : ", response.data.newMessage.messages);
-        setDiscussion((prevState) => [
-          ...prevState,
-          response.data.newMessage.messages,
-        ]);
+        setDiscussion((prevState) => {
+          return [...prevState, response.data.newMessage.messages];
+        });
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        return console.error(error);
+      });
     event.target.reset();
 
-    socket.emit("send-message", { discussion: discussion });
+    socket.emit("send-message", { discussion });
   };
 
   const getAConversation = async () => {
@@ -69,7 +72,9 @@ const Conversation = () => {
         }
         setDiscussion(response.data.messages);
       })
-      .catch((error) => alert(error));
+      .catch((error) => {
+        return alert(error);
+      });
   };
 
   const scrollToBottom = () => {
@@ -79,7 +84,9 @@ const Conversation = () => {
     getAConversation();
 
     socket.on("receive-message", (data) => {
-      setDiscussion((prevState) => [...prevState, data]);
+      setDiscussion((prevState) => {
+        return [...prevState, data];
+      });
     });
     scrollToBottom();
   }, [socket, discussion]);
@@ -103,8 +110,8 @@ const Conversation = () => {
               <h3>Loading messages...</h3>
             ) : (
               <div className="imessage" ref={messagesEndRef}>
-                {discussion.map((content) =>
-                  content.sender === userId ? (
+                {discussion.map((content) => {
+                  return content.sender === userId ? (
                     <div className="from-me" key={content._id}>
                       <p>{content.messageText}</p>
                     </div>
@@ -112,8 +119,8 @@ const Conversation = () => {
                     <div className="from-them" key={content._id}>
                       <p>{content.messageText}</p>
                     </div>
-                  )
-                )}
+                  );
+                })}
               </div>
             )}
           </div>
@@ -121,7 +128,9 @@ const Conversation = () => {
             <div className="send__message--content">
               <input
                 type="text"
-                onChange={(event) => setMessage(event.target.value)}
+                onChange={(event) => {
+                  return setMessage(event.target.value);
+                }}
                 className="send__message--text"
                 placeholder="Type message here"
               />
@@ -135,7 +144,7 @@ const Conversation = () => {
         </div>
       ) : (
         <div className="no__selected--container">
-          <div className="no__selected--content"></div>
+          <div className="no__selected--content" />
         </div>
       )}
     </div>

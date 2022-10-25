@@ -1,4 +1,7 @@
-import { React, useState, useEffect, useContext } from "react";
+/* eslint-disable arrow-body-style */
+/* eslint-disable no-alert */
+/* eslint-disable consistent-return */
+import { useState, useEffect, useContext } from "react";
 
 import axios from "axios";
 import { UserContext } from "../../Context";
@@ -12,20 +15,15 @@ const RecentMessageCard = ({ props }) => {
     setContactPersonId,
     contactPersonId,
     setContactPerson,
-    contactPerson,
     discussion,
     setDiscussion,
-    lastMessage,
-    setLastMessage,
     setSelectedConversation,
-    response,
-    setResponse,
   } = useContext(UserContext);
 
-  let userId = localStorage.getItem("userID");
-  let token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userID");
+  const token = localStorage.getItem("token");
 
-  let room = conversationId;
+  const room = conversationId;
 
   const getAConversation = async () => {
     await axios({
@@ -111,9 +109,10 @@ const RecentMessageCard = ({ props }) => {
 const RecentsMessages = () => {
   const [recentMessages, setRecentMessages] = useState([]);
 
+  // eslint-disable-next-line no-unused-vars
   const [lastMessage, setLastMessage] = useState([]);
 
-  let token = `${localStorage.getItem("token")}`;
+  const token = `${localStorage.getItem("token")}`;
 
   useEffect(() => {
     const fetchConversation = async () => {

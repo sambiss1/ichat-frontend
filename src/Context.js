@@ -1,4 +1,8 @@
-import { createContext, useEffect, useState } from "react";
+/* eslint-disable no-alert */
+/* eslint-disable arrow-body-style */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/jsx-no-constructed-context-values */
+import { createContext, useState } from "react";
 import axios from "axios";
 import socketIOClient from "socket.io-client";
 
@@ -23,8 +27,6 @@ export const Provider = ({ children }) => {
   const socket = socketIOClient(`http://localhost:8000`);
 
   const [selectedConversation, setSelectedConversation] = useState(false);
-
-  const [response, setResponse] = useState("");
 
   const [lastMessage, setLastMessage] = useState([]);
 
@@ -63,8 +65,7 @@ export const Provider = ({ children }) => {
         setSelectedConversation,
         auth,
         setAuth,
-        response,
-        setResponse,
+
         lastMessage,
         setLastMessage,
         socket,

@@ -16,15 +16,19 @@ module.exports = {
     semi: 1,
     "react/react-in-jsx-scope": "off",
     "react/jsx-uses-react": "off",
-    quotes: ["error", "double"],
+    "react/prop-types": "off",
+    "no-underscore-dangle": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    quotes: ["error", "double", { allowTemplateLiterals: true }],
     "react/jsx-filename-extension": [1, { extensions: [".js", ".jsx"] }],
     "arrow-body-style": ["error", "always"],
-      "react/function-component-definition": [
-        "error",
-        {
-            "namedComponents": "arrow-function",
-            "unnamedComponents": "arrow-function"
-        }
-    ]
+    "react/function-component-definition": [
+      "error",
+      {
+        namedComponents: "arrow-function",
+        unnamedComponents: "arrow-function",
+      },
+    ],
   },
 };

@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import SignUpForm from "../../components/SignUpForm";
 import "./signuppage.css";
- 
+
 const SignUpPage = () => {
-  return ( 
+  return (
     <div className="signup__page--container">
       <div className="signup__page--left__section">
         <h3> Sign Up </h3> <SignUpForm />
@@ -16,7 +16,7 @@ const SignUpPage = () => {
         <div className="signup__page--image__container">
           <img src="/images/messages-amico.svg" alt="Message imag" />
         </div>{" "}
-      </div>{" "} 
+      </div>{" "}
     </div>
   );
 };

@@ -1,12 +1,10 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { MdLogout } from "react-icons/md";
 import NavBar from "../NavBar";
 import "./sidebar.css";
-import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../Context";
 
 const SideBar = () => {
-  const navigate = useNavigate();
   const { setAuth } = useContext(UserContext);
   return (
     <div className="side__bar--container">
@@ -19,7 +17,6 @@ const SideBar = () => {
           onClick={() => {
             setAuth(false);
             localStorage.clear();
-            navigate("/", { replace: true });
           }}
         />
       </div>
