@@ -3,262 +3,253 @@
 @import "../../styles/__breakpoints";
 
 .discussion__main {
-    &--container {
-        height: 90vh;
-        background-color: $white_color;
-        border-radius: 15px;
-        position: relative;
-        padding: 0 2em;
-        width: 90%;
-        @include display_flex__column;
+  &--container {
+    height: 90vh;
+    background-color: $white_color;
+    border-radius: 15px;
+    position: relative;
+    padding: 0 2em;
+    width: 90%;
+    @include display_flex__column;
+  }
 
-    }
-
-    &--content {
-        height: 100%;
-        position: relative;
-        width: 100%;
-        @include display_flex__column;
-    }
+  &--content {
+    height: 100%;
+    position: relative;
+    width: 100%;
+    @include display_flex__column;
+  }
 }
 
 .no__selected {
-    &--container {
-        height: 100%;
-        background-color: $white_color;
-        border-radius: 15px;
-        position: relative;
-        padding: 0 2em;
-        width: 90%;
-        @include display_flex__column;
-        align-items: center;
-        justify-content: center;
-    }
+  &--container {
+    height: 100%;
+    background-color: $white_color;
+    border-radius: 15px;
+    position: relative;
+    padding: 0 2em;
+    width: 90%;
+    @include display_flex__column;
+    align-items: center;
+    justify-content: center;
+  }
 
-    &--content {
-        height: 50%;
-        background-color: $white_color;
-        background: url("../../../public/message-typing.svg") no-repeat;
-        // background: url("/images/message-typing.svg") no-repeat;
-        background-size: contain;
-        background-position: center center;
-        width: 50%;
-        @include display_flex__column;
-    }
+  &--content {
+    height: 50%;
+    background-color: $white_color;
+    background: url("../../../public/message-typing.svg") no-repeat;
+    // background: url("/images/message-typing.svg") no-repeat;
+    background-size: contain;
+    background-position: center center;
+    width: 50%;
+    @include display_flex__column;
+  }
 }
-
-
 
 .contact__person {
-    &--container {
-        border-bottom: .1em solid #CECECE;
-        @include display_flex__simple;
-        padding: 1em 2em;
-    }
+  &--container {
+    border-bottom: 0.1em solid #cecece;
+    @include display_flex__simple;
+    padding: 1em 2em;
+  }
 
-    &--profile {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
+  &--profile {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
 
-        img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-        }
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
     }
+  }
 
-    &--details {
-        @include display_flex__column;
-        align-items: center;
-        justify-content: center;
-        width: 80%;
-    }
+  &--details {
+    @include display_flex__column;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+  }
 }
-
 
 // Message bubble
 .imessage {
-    background-color: #fff;
-    @include display_flex__column;
-    font-size: .8rem;
-    margin: 0 auto 1rem;
-    max-width: 600px;
-    padding: 0.5rem 1.5rem;
-    width: 90%;
-    overflow-y: auto;
-    height: 65%;
-
+  background-color: #fff;
+  @include display_flex__column;
+  font-size: 0.8rem;
+  margin: 0 auto 1rem;
+  max-width: 600px;
+  padding: 0.5rem 1.5rem;
+  width: 90%;
+  overflow-y: auto;
+  height: 65%;
 }
 
 .imessage div {
-    border-radius: .5rem;
-    line-height: 1.25;
-    max-width: 75%;
-    padding: 0.5rem .875rem;
-    position: relative;
-    word-wrap: break-word;
+  border-radius: 0.5rem;
+  line-height: 1.25;
+  max-width: 75%;
+  padding: 0.5rem 0.875rem;
+  position: relative;
+  word-wrap: break-word;
 }
 
 .imessage div::before,
 .imessage div::after {
-    bottom: -0.1rem;
-    content: "";
-    height: 1rem;
-    position: absolute;
+  bottom: -0.1rem;
+  content: "";
+  height: 1rem;
+  position: absolute;
 }
 
 div.from-me {
-    align-self: flex-end;
-    background-color: #248bf5;
-    color: #fff;
+  align-self: flex-end;
+  background-color: #248bf5;
+  color: #fff;
 }
 
 div.from-me::before {
-    border-bottom-left-radius: 0.5rem 0.5rem;
-    border-right: 1rem solid #248bf5;
-    right: -0.35rem;
-    transform: translate(0, -0.1rem);
+  border-bottom-left-radius: 0.5rem 0.5rem;
+  border-right: 1rem solid #248bf5;
+  right: -0.35rem;
+  transform: translate(0, -0.1rem);
 }
 
 div.from-me::after {
-    background-color: #fff;
-    border-bottom-left-radius: 0.5rem;
-    right: -40px;
-    transform: translate(-30px, -2px);
-    width: 10px;
+  background-color: #fff;
+  border-bottom-left-radius: 0.5rem;
+  right: -40px;
+  transform: translate(-30px, -2px);
+  width: 10px;
 }
 
 div[class^="from-"] {
-    margin: 0.5rem 0;
-    width: fit-content;
+  margin: 0.5rem 0;
+  width: fit-content;
 }
 
-div.from-me~div.from-me {
-    margin: 0.25rem 0 0;
+div.from-me ~ div.from-me {
+  margin: 0.25rem 0 0;
 }
 
-div.from-me~div.from-me:not(:last-child) {
-    margin: 0.25rem 0 0;
+div.from-me ~ div.from-me:not(:last-child) {
+  margin: 0.25rem 0 0;
 }
 
-div.from-me~div.from-me:last-child {
-    margin-bottom: 0.5rem;
+div.from-me ~ div.from-me:last-child {
+  margin-bottom: 0.5rem;
 }
 
 div.from-them {
-    align-items: flex-start;
-    background-color: #e5e5ea;
-    color: #000;
+  align-items: flex-start;
+  background-color: #e5e5ea;
+  color: #000;
 }
 
 div.from-them:before {
-    border-bottom-right-radius: 0.8rem 0.7rem;
-    border-left: 1rem solid #e5e5ea;
-    left: -0.35rem;
-    transform: translate(0, -0.1rem);
+  border-bottom-right-radius: 0.8rem 0.7rem;
+  border-left: 1rem solid #e5e5ea;
+  left: -0.35rem;
+  transform: translate(0, -0.1rem);
 }
 
 div.from-them::after {
-    background-color: #fff;
-    border-bottom-right-radius: 1rem;
-    left: 20px;
-    transform: translate(-30px, -2px);
-    width: 10px;
+  background-color: #fff;
+  border-bottom-right-radius: 1rem;
+  left: 20px;
+  transform: translate(-30px, -2px);
+  width: 10px;
 }
 
 div[class^="from-"].emoji {
-    background: none;
-    font-size: 2.5rem;
+  background: none;
+  font-size: 2.5rem;
 }
 
 div[class^="from-"].emoji::before {
-    content: none;
+  content: none;
 }
 
-
-
 .message-tile {
-    margin: 10px 30px;
-    border-radius: 5px;
-    color: #222;
-    font-weight: 500;
-    padding: 10px 20px;
-    background-color: #ddd;
-    position: relative;
-    text-align: left;
-    z-index: 1; //à ne pas enlever, très important//
+  margin: 10px 30px;
+  border-radius: 5px;
+  color: #222;
+  font-weight: 500;
+  padding: 10px 20px;
+  background-color: #ddd;
+  position: relative;
+  text-align: left;
+  z-index: 1; //à ne pas enlever, très important//
 
-    .pointer {
-        position: absolute;
-        bottom: 0;
-        height: 50px;
-        width: 50px;
-        background: #ddd;
-        z-index: -1;
-    }
+  .pointer {
+    position: absolute;
+    bottom: 0;
+    height: 50px;
+    width: 50px;
+    background: #ddd;
+    z-index: -1;
+  }
 
-    .me {
-        right: 0%;
-        transform: skew(-.300rad);
-    }
+  .me {
+    right: 0%;
+    transform: skew(-0.3rad);
+  }
 
-    .other {
-        right: 0%;
-        transform: skew(.300rad);
-        background-color: $primary_color;
-    }
+  .other {
+    right: 0%;
+    transform: skew(0.3rad);
+    background-color: $primary_color;
+  }
 }
 
 .other-messages {
-    align-self: center;
-    justify-self: center;
-    background-color: $primary_color;
-    color: #fff;
+  align-self: center;
+  justify-self: center;
+  background-color: $primary_color;
+  color: #fff;
 }
 
 .send__message {
-    &--form {
-        position: absolute;
-        bottom: 2em;
-        width: 90%;
-        @include display_flex__simple;
-        justify-content: space-between;
+  &--form {
+    position: absolute;
+    bottom: 2em;
+    width: 90%;
+    @include display_flex__simple;
+    justify-content: space-between;
+  }
 
-    }
+  &--content {
+    border-radius: 5px;
+    position: relative;
+    width: 90%;
+    background-color: #cecece;
+    @include display_flex__simple;
+    align-items: center;
+  }
 
-    &--content {
-        border-radius: 5px;
-        position: relative;
-        width: 90%;
-        background-color: #CECECE;
-        @include display_flex__simple;
-        align-items: center;
-    }
+  &--text {
+    background: transparent;
+    border: none;
+    width: 80%;
+    padding: 0.8em;
+    outline: none;
+    word-wrap: break-word;
+    word-break: break-all;
+    height: auto;
+  }
 
-    &--text {
+  &--image {
+    position: absolute;
+    right: 2%;
+    font-size: 1.4em;
+  }
 
-        background: transparent;
-        border: none;
-        width: 80%;
-        padding: .8em;
-        outline: none;
-        word-wrap: break-word;
-        word-break: break-all;
-        height: auto;
-    }
-
-    &--image {
-        position: absolute;
-        right: 2%;
-        font-size: 1.4em;
-    }
-
-    &--button {
-        border: none;
-        background-color: $primary_color;
-        color: $white_color;
-        padding: .8em;
-        border-radius: 5px;
-    }
+  &--button {
+    border: none;
+    background-color: $primary_color;
+    color: $white_color;
+    padding: 0.8em;
+    border-radius: 5px;
+  }
 }
