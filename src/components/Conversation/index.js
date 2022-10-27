@@ -3,6 +3,7 @@
 /* eslint-disable no-console */
 /* eslint-disable no-alert */
 /* eslint-disable consistent-return */
+/* eslint-disable react/self-closing-comp */
 import { useContext, useEffect, useRef, useState } from "react";
 import { BiSend } from "react-icons/bi";
 import { BsCamera } from "react-icons/bs";
@@ -28,6 +29,8 @@ const Conversation = () => {
     socket,
     setDiscussion,
   } = useContext(UserContext);
+
+
   const [sendingMessage, setSendingMessage] = useState(false)
 
 
@@ -73,6 +76,8 @@ const Conversation = () => {
   const sendMessage = async (event) => {
     event.preventDefault();
     uploadImage();
+
+    setSendingMessage(true)
     
     await axios({
       method: "POST",
@@ -92,6 +97,8 @@ const Conversation = () => {
         setDiscussion((prevState) => {
           return [...prevState, response.data.newMessage.messages];
         });
+
+        setSendingMessage(false)
       })
       .catch((error) => {
         return console.error(error);
@@ -197,7 +204,19 @@ const Conversation = () => {
               </div>
             </div>
             <button type="submit" className="send__message--button">
+              { sendingMessage ?
+                (
+                  <div className="lds-ring">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                  ) :
+                  (
+                  
               <BiSend />
+                  )
+              }
             </button>
           </form>
         </div>
