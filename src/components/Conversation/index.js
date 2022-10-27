@@ -12,7 +12,6 @@ import { UserContext } from "../../Context";
 const Conversation = () => {
   const [message, setMessage] = useState("");
 
-  // const [messageSend, setMessageSend] = useState("");
   const messagesEndRef = useRef(null);
 
   const userId = localStorage.getItem("userID");
