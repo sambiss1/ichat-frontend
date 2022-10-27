@@ -6,7 +6,8 @@ const SignUpPage = () => {
   return (
     <div className="signup__page--container">
       <div className="signup__page--left__section">
-        <h3> Sign Up </h3> <SignUpForm />
+        <h3> Sign Up </h3>
+        <SignUpForm />
         <p>
           Already have an account ? <Link to="/"> Sign in here. </Link>
         </p>

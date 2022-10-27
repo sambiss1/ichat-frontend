@@ -89,6 +89,7 @@ const Conversation = () => {
     });
     scrollToBottom();
   }, [socket, discussion]);
+  
   return (
     <div className="discussion__main--container">
       {selectedConversation ? (
