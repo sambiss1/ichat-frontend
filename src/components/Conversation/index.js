@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable arrow-body-style */
 /* eslint-disable no-console */
 /* eslint-disable no-alert */
 /* eslint-disable consistent-return */
@@ -28,11 +30,50 @@ const Conversation = () => {
   } = useContext(UserContext);
   const [sendingMessage, setSendingMessage] = useState(false)
 
+
+  const [uploadedImage, setUploadedImage] = useState("");
+  // const inputFileRef = useRef();
+  
+  // const cleanUpImage = () => {
+  //   URL.revokeObjectURL(uploadedImage);
+  //   // inputFileRef.current.value = null;
+  // };
+  // const setImage = (newImage) => {
+  //   if (uploadedImage) {
+  //     cleanUpImage();
+  //   }
+  //   setUploadedImage(newImage);
+  // };
+
+  // uploade image
+  const handleImage = (event) => {
+    setUploadedImage(event.target.files[0]); 
+    console.log(uploadedImage);
+   
+  };
+
+  const uploadImage = async () => {
+    const formData = new FormData();
+    formData.append("file", uploadedImage);
+    formData.append("upload_preset", "zaqnqwv4");
+
+    console.log(formData);
+    await axios({
+      method: "POST",
+      url: " https://api.cloudinary.com/v1_1/dhyk7zned/image/upload",
+      body: formData
+    }).then((response) => {
+      console.log(response.data);
+    })
+      .catch(error => console.error(error)); 
+  };
+
+
+  
   const sendMessage = async (event) => {
     event.preventDefault();
-
-    setSendingMessage(true);
-
+    uploadImage();
+    
     await axios({
       method: "POST",
       url: `http://localhost:8000/api/message/new`,
@@ -58,6 +99,7 @@ const Conversation = () => {
     event.target.reset();
 
     socket.emit("send-message", { discussion });
+
   };
 
   const getAConversation = async () => {
@@ -93,6 +135,8 @@ const Conversation = () => {
     });
     scrollToBottom();
   }, [socket, discussion]);
+
+
   
   return (
     <div className="discussion__main--container">
@@ -138,8 +182,19 @@ const Conversation = () => {
                 className="send__message--text"
                 placeholder="Type message here"
               />
-
-              <BsCamera className="send__message--image" />
+              <div className="send__message--file__container">
+                <label htmlFor="uploaderImage" className="send__message--file">   
+                  <BsCamera className="send__message--image" />
+                 </label>
+                <input
+                  type="file"
+                  onChange={ (event) => handleImage(event) }
+                  name="img"
+                  className="send__message--file"
+                  id="uploaderImage"
+                  accept=".jpg, .jpeg, .png, .webp"
+                />
+              </div>
             </div>
             <button type="submit" className="send__message--button">
               <BiSend />
