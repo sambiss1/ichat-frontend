@@ -12,11 +12,11 @@ import { UserContext } from "../../Context";
 const Conversation = () => {
   const [message, setMessage] = useState("");
 
-  // const [messageSend, setMessageSend] = useState("");
   const messagesEndRef = useRef(null);
 
   const userId = localStorage.getItem("userID");
   const token = localStorage.getItem("token");
+
 
   const {
     contactPerson,
@@ -26,9 +26,12 @@ const Conversation = () => {
     socket,
     setDiscussion,
   } = useContext(UserContext);
+  const [sendingMessage, setSendingMessage] = useState(false)
 
   const sendMessage = async (event) => {
     event.preventDefault();
+
+    setSendingMessage(true);
 
     await axios({
       method: "POST",
@@ -44,7 +47,7 @@ const Conversation = () => {
       },
     })
       .then((response) => {
-        alert("Message send : ", response.data.newMessage.messages);
+       
         setDiscussion((prevState) => {
           return [...prevState, response.data.newMessage.messages];
         });
