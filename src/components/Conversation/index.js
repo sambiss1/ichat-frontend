@@ -8,7 +8,8 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { BiSend } from "react-icons/bi";
 import { BsCamera } from "react-icons/bs";
 import axios from "axios";
-
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
 import "./conversations.css";
 import { UserContext } from "../../Context";
 
@@ -20,7 +21,6 @@ const Conversation = () => {
   const userId = localStorage.getItem("userID");
   const token = localStorage.getItem("token");
 
-
   const {
     contactPerson,
     discussion,
@@ -28,15 +28,14 @@ const Conversation = () => {
     selectedConversation,
     socket,
     setDiscussion,
+    anError,
   } = useContext(UserContext);
 
-
-  const [sendingMessage, setSendingMessage] = useState(false)
-
+  const [sendingMessage, setSendingMessage] = useState(false);
 
   const [uploadedImage, setUploadedImage] = useState("");
   // const inputFileRef = useRef();
-  
+
   // const cleanUpImage = () => {
   //   URL.revokeObjectURL(uploadedImage);
   //   // inputFileRef.current.value = null;
@@ -50,9 +49,8 @@ const Conversation = () => {
 
   // uploade image
   const handleImage = (event) => {
-    setUploadedImage(event.target.files[0]); 
+    setUploadedImage(event.target.files[0]);
     console.log(uploadedImage);
-   
   };
 
   const uploadImage = async () => {
@@ -64,21 +62,20 @@ const Conversation = () => {
     await axios({
       method: "POST",
       url: " https://api.cloudinary.com/v1_1/dhyk7zned/image/upload",
-      body: formData
-    }).then((response) => {
-      console.log(response.data);
+      body: formData,
     })
-      .catch(error => console.error(error)); 
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => console.error(error));
   };
 
-
-  
   const sendMessage = async (event) => {
     event.preventDefault();
     uploadImage();
 
-    setSendingMessage(true)
-    
+    setSendingMessage(true);
+
     await axios({
       method: "POST",
       url: `http://localhost:8000/api/message/new`,
@@ -93,12 +90,11 @@ const Conversation = () => {
       },
     })
       .then((response) => {
-       
         setDiscussion((prevState) => {
           return [...prevState, response.data.newMessage.messages];
         });
 
-        setSendingMessage(false)
+        setSendingMessage(false);
       })
       .catch((error) => {
         return console.error(error);
@@ -106,7 +102,6 @@ const Conversation = () => {
     event.target.reset();
 
     socket.emit("send-message", { discussion });
-
   };
 
   const getAConversation = async () => {
@@ -143,8 +138,6 @@ const Conversation = () => {
     scrollToBottom();
   }, [socket, discussion]);
 
-
-  
   return (
     <div className="discussion__main--container">
       {selectedConversation ? (
@@ -160,25 +153,43 @@ const Conversation = () => {
               <p>Online</p>
             </div>
           </div>
-          <div className="discussion__main--content">
-            {!discussion ? (
-              <h3>Loading messages...</h3>
-            ) : (
-              <div className="imessage" ref={messagesEndRef}>
-                {discussion.map((content) => {
-                  return content.sender === userId ? (
-                    <div className="from-me" key={content._id}>
-                      <p>{content.messageText}</p>
-                    </div>
-                  ) : (
-                    <div className="from-them" key={content._id}>
-                      <p>{content.messageText}</p>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
+          { anError ? (
+            
+            <Popup trigger={anError} position="right center">
+                <div>
+                    <h3>An unpexted error occured</h3>
+                <button
+                  onClick={() => {
+                    window.location.reload();
+                    }}
+                    type="button"
+                >
+                Retry please !
+              </button>
+            </div>
+            </Popup>
+            
+          ) : (
+            <div className="discussion__main--content">
+              {!discussion ? (
+                <h3>Loading messages...</h3>
+              ) : (
+                <div className="imessage" ref={messagesEndRef}>
+                  {discussion.map((content) => {
+                    return content.sender === userId ? (
+                      <div className="from-me" key={content._id}>
+                        <p>{content.messageText}</p>
+                      </div>
+                    ) : (
+                      <div className="from-them" key={content._id}>
+                        <p>{content.messageText}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
           <form onSubmit={sendMessage} className="send__message--form">
             <div className="send__message--content">
               <input
@@ -190,12 +201,12 @@ const Conversation = () => {
                 placeholder="Type message here"
               />
               <div className="send__message--file__container">
-                <label htmlFor="uploaderImage" className="send__message--file">   
+                <label htmlFor="uploaderImage" className="send__message--file">
                   <BsCamera className="send__message--image" />
-                 </label>
+                </label>
                 <input
                   type="file"
-                  onChange={ (event) => handleImage(event) }
+                  onChange={(event) => handleImage(event)}
                   name="img"
                   className="send__message--file"
                   id="uploaderImage"
@@ -204,19 +215,15 @@ const Conversation = () => {
               </div>
             </div>
             <button type="submit" className="send__message--button">
-              { sendingMessage ?
-                (
-                  <div className="lds-ring">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                  </div>
-                  ) :
-                  (
-                  
-              <BiSend />
-                  )
-              }
+              {sendingMessage ? (
+                <div className="lds-ring">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              ) : (
+                <BiSend />
+              )}
             </button>
           </form>
         </div>

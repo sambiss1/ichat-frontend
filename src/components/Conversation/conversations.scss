@@ -210,10 +210,9 @@ div[class^="from-"].emoji::before {
   color: #fff;
 }
 
-
- input[type="file"] {
-   display: none;
- }
+input[type="file"] {
+  display: none;
+}
 .send__message {
   &--form {
     position: absolute;
@@ -243,7 +242,8 @@ div[class^="from-"].emoji::before {
     height: auto;
   }
 
-  &--image, &--file {
+  &--image,
+  &--file {
     right: 2%;
     font-size: 1.4em;
 
@@ -254,11 +254,8 @@ div[class^="from-"].emoji::before {
   &--file__container {
     position: absolute;
     right: 2%;
-
   }
 
-
- 
   &--button {
     border: none;
     background-color: $primary_color;
@@ -268,17 +265,17 @@ div[class^="from-"].emoji::before {
     @include display_flex__column;
     justify-content: center;
     align-items: center;
-    
+
     .lds-ring {
       display: inline-block;
       position: relative;
       width: 15px;
       height: 15px;
       @include display_flex__column;
-        justify-content: center;
-        align-items: center;
+      justify-content: center;
+      align-items: center;
     }
-    
+
     .lds-ring div {
       box-sizing: border-box;
       display: block;
@@ -292,24 +289,24 @@ div[class^="from-"].emoji::before {
       animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
       border-color: $white_color transparent transparent transparent;
     }
-    
+
     .lds-ring div:nth-child(1) {
       animation-delay: -0.45s;
     }
-    
+
     .lds-ring div:nth-child(2) {
       animation-delay: -0.3s;
     }
-    
+
     .lds-ring div:nth-child(3) {
       animation-delay: -0.15s;
     }
-    
+
     @keyframes lds-ring {
       0% {
         transform: rotate(0deg);
       }
-    
+
       100% {
         transform: rotate(360deg);
       }
