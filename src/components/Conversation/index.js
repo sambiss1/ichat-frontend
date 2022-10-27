@@ -143,7 +143,7 @@ const Conversation = () => {
                 className="send__message--text"
                 placeholder="Type message here"
               />
-              <div>
+              <div className="send__message--file__container">
                 <label htmlFor="uploaderImage" className="send__message--file">   
                   <BsCamera className="send__message--image" />
                  </label>
