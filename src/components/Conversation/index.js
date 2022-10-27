@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable arrow-body-style */
 /* eslint-disable no-console */
 /* eslint-disable no-alert */
 /* eslint-disable consistent-return */
@@ -11,6 +13,7 @@ import { UserContext } from "../../Context";
 
 const Conversation = () => {
   const [message, setMessage] = useState("");
+  const [uploadedImage, setUploadedImage] = useState("");
 
   // const [messageSend, setMessageSend] = useState("");
   const messagesEndRef = useRef(null);
@@ -90,6 +93,11 @@ const Conversation = () => {
     });
     scrollToBottom();
   }, [socket, discussion]);
+
+  const uploadeImage = (e) => {
+    setUploadedImage(e.target.files[0]);
+    console.log(uploadedImage);
+  };
   
   return (
     <div className="discussion__main--container">
@@ -135,8 +143,19 @@ const Conversation = () => {
                 className="send__message--text"
                 placeholder="Type message here"
               />
-
-              <BsCamera className="send__message--image" />
+              <div>
+                <label htmlFor="uploaderImage" className="send__message--file">   
+                  <BsCamera className="send__message--image" />
+                 </label>
+                <input
+                  type="file"
+                  onChange={ (event) => uploadeImage(event) }
+                  name="img"
+                  className="send__message--file"
+                  id="uploaderImage"
+                  accept=".jpg, .jpeg, .png, .webp"
+                />
+              </div>
             </div>
             <button type="submit" className="send__message--button">
               <BiSend />

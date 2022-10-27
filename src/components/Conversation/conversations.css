@@ -113,7 +113,7 @@ div.from-me::after {
   width: 10px;
 }
 
-div[class^="from-"] {
+div[class^=from-] {
   margin: 0.5rem 0;
   width: fit-content;
 }
@@ -151,12 +151,12 @@ div.from-them::after {
   width: 10px;
 }
 
-div[class^="from-"].emoji {
+div[class^=from-].emoji {
   background: none;
   font-size: 2.5rem;
 }
 
-div[class^="from-"].emoji::before {
+div[class^=from-].emoji::before {
   content: none;
 }
 
@@ -194,6 +194,10 @@ div[class^="from-"].emoji::before {
   justify-self: center;
   background-color: #5600ff;
   color: #fff;
+}
+
+input[type=file] {
+  display: none;
 }
 
 .send__message--form {

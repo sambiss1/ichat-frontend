@@ -210,6 +210,10 @@ div[class^="from-"].emoji::before {
   color: #fff;
 }
 
+
+ input[type="file"] {
+   display: none;
+ }
 .send__message {
   &--form {
     position: absolute;
@@ -244,7 +248,10 @@ div[class^="from-"].emoji::before {
     right: 2%;
     font-size: 1.4em;
   }
-
+  &--file {
+    // visibility: hidden;
+  }
+ 
   &--button {
     border: none;
     background-color: $primary_color;
