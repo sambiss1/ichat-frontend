@@ -113,7 +113,7 @@ div.from-me::after {
   width: 10px;
 }
 
-div[class^="from-"] {
+div[class^=from-] {
   margin: 0.5rem 0;
   width: fit-content;
 }
@@ -151,12 +151,12 @@ div.from-them::after {
   width: 10px;
 }
 
-div[class^="from-"].emoji {
+div[class^=from-].emoji {
   background: none;
   font-size: 2.5rem;
 }
 
-div[class^="from-"].emoji::before {
+div[class^=from-].emoji::before {
   content: none;
 }
 
@@ -196,6 +196,10 @@ div[class^="from-"].emoji::before {
   color: #fff;
 }
 
+input[type=file] {
+  display: none;
+}
+
 .send__message--form {
   position: absolute;
   bottom: 2em;
@@ -221,10 +225,16 @@ div[class^="from-"].emoji::before {
   word-break: break-all;
   height: auto;
 }
-.send__message--image {
-  position: absolute;
+.send__message--image, .send__message--file {
   right: 2%;
   font-size: 1.4em;
+}
+.send__message--image:hover, .send__message--file:hover {
+  cursor: pointer;
+}
+.send__message--file__container {
+  position: absolute;
+  right: 2%;
 }
 .send__message--button {
   border: none;
