@@ -13,7 +13,6 @@ import { UserContext } from "../../Context";
 
 const Conversation = () => {
   const [message, setMessage] = useState("");
-  const [uploadedImage, setUploadedImage] = useState("");
 
   // const [messageSend, setMessageSend] = useState("");
   const messagesEndRef = useRef(null);
@@ -30,9 +29,50 @@ const Conversation = () => {
     setDiscussion,
   } = useContext(UserContext);
 
+
+  const [uploadedImage, setUploadedImage] = useState("");
+  // const inputFileRef = useRef();
+  
+  // const cleanUpImage = () => {
+  //   URL.revokeObjectURL(uploadedImage);
+  //   // inputFileRef.current.value = null;
+  // };
+  // const setImage = (newImage) => {
+  //   if (uploadedImage) {
+  //     cleanUpImage();
+  //   }
+  //   setUploadedImage(newImage);
+  // };
+
+  // uploade image
+  const handleImage = (event) => {
+    setUploadedImage(event.target.files[0]); 
+    console.log(uploadedImage);
+   
+  };
+
+  const uploadImage = async () => {
+    const formData = new FormData();
+    formData.append("file", uploadedImage);
+    formData.append("upload_preset", "zaqnqwv4");
+
+    console.log(formData);
+    await axios({
+      method: "POST",
+      url: " https://api.cloudinary.com/v1_1/dhyk7zned/image/upload",
+      body: formData
+    }).then((response) => {
+      console.log(response.data);
+    })
+      .catch(error => console.error(error)); 
+  };
+
+
+  
   const sendMessage = async (event) => {
     event.preventDefault();
-
+    uploadImage();
+    
     await axios({
       method: "POST",
       url: `http://localhost:8000/api/message/new`,
@@ -58,6 +98,7 @@ const Conversation = () => {
     event.target.reset();
 
     socket.emit("send-message", { discussion });
+
   };
 
   const getAConversation = async () => {
@@ -94,10 +135,7 @@ const Conversation = () => {
     scrollToBottom();
   }, [socket, discussion]);
 
-  const uploadeImage = (e) => {
-    setUploadedImage(e.target.files[0]);
-    console.log(uploadedImage);
-  };
+
   
   return (
     <div className="discussion__main--container">
@@ -149,7 +187,7 @@ const Conversation = () => {
                  </label>
                 <input
                   type="file"
-                  onChange={ (event) => uploadeImage(event) }
+                  onChange={ (event) => handleImage(event) }
                   name="img"
                   className="send__message--file"
                   id="uploaderImage"
