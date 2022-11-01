@@ -113,12 +113,14 @@ const RecentsMessages = () => {
   const [lastMessage, setLastMessage] = useState([]);
 
   const token = `${localStorage.getItem("token")}`;
+  const userId = localStorage.getItem("userID");
+
 
   useEffect(() => {
     const fetchConversation = async () => {
       await axios({
         method: "GET",
-        url: "http://localhost:8000/api/conversations/",
+        url: `http://localhost:8000/api/conversations/${userId}`,
         headers: {
           "Content-Type": "application/json",
           Authorization: `${token}`,

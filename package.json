@@ -9,6 +9,7 @@
     "axios": "^1.1.2",
     "cloudinary": "^1.32.0",
     "emoji-picker-react": "^4.3.0",
+    "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.6.0",

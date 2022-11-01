@@ -9,12 +9,13 @@ import { BiSend } from "react-icons/bi";
 import { BsCamera } from "react-icons/bs";
 import axios from "axios";
 import Popup from "reactjs-popup";
+import moment from "moment";
 import "reactjs-popup/dist/index.css";
 import "./conversations.css";
 import { UserContext } from "../../Context";
 
 const Conversation = () => {
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState([]);
 
   const messagesEndRef = useRef(null);
 
@@ -29,24 +30,13 @@ const Conversation = () => {
     socket,
     setDiscussion,
     anError,
+    contactPersonId
   } = useContext(UserContext);
 
   const [sendingMessage, setSendingMessage] = useState(false);
 
   const [uploadedImage, setUploadedImage] = useState("");
-  // const inputFileRef = useRef();
-
-  // const cleanUpImage = () => {
-  //   URL.revokeObjectURL(uploadedImage);
-  //   // inputFileRef.current.value = null;
-  // };
-  // const setImage = (newImage) => {
-  //   if (uploadedImage) {
-  //     cleanUpImage();
-  //   }
-  //   setUploadedImage(newImage);
-  // };
-
+ 
   // uploade image
   const handleImage = (event) => {
     setUploadedImage(event.target.files[0]);
@@ -57,19 +47,11 @@ const Conversation = () => {
     const formData = new FormData();
     formData.append("file", uploadedImage);
     formData.append("upload_preset", "zaqnqwv4");
-
-    console.log(formData);
-    await axios({
-      method: "POST",
-      url: " https://api.cloudinary.com/v1_1/dhyk7zned/image/upload",
-      body: formData,
-    })
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => console.error(error));
   };
-
+  
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollTo(0, messagesEndRef.current.scrollHeight);
+  };
   const sendMessage = async (event) => {
     event.preventDefault();
     uploadImage();
@@ -90,55 +72,56 @@ const Conversation = () => {
       },
     })
       .then((response) => {
-        setDiscussion((prevState) => {
-          return [...prevState, response.data.newMessage.messages];
-        });
-
+        // setDiscussion((prevState) => [...prevState, response.data.newMessage.messages]);
+        setDiscussion(response.data.newMessage.messages);
         setSendingMessage(false);
       })
       .catch((error) => {
         return console.error(error);
       });
-    event.target.reset();
-
+      event.target.reset();
+      
     socket.emit("send-message", { discussion });
-  };
-
+    
+    };
+    
   const getAConversation = async () => {
-    await axios({
-      method: "GET",
-      url: `http://localhost:8000/api/conversations/${conversationId}`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `${token}`,
-      },
-    })
+      await axios({
+        method: "GET",
+        url: `http://localhost:8000/api/conversations/${userId}/${contactPersonId}`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${token}`,
+        },
+      })
       .then((response) => {
         if (response.statusCode === 404) {
           return discussion;
         }
-        setDiscussion(response.data.messages);
+        // setDiscussion((prevState) => [...prevState, response.data.conversations]);
+
+        setDiscussion(response.data.conversations[0].messages);
+        console.log(discussion);
       })
       .catch((error) => {
         return alert(error);
       });
   };
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollTo(0, messagesEndRef.current.scrollHeight);
-  };
   useEffect(() => {
     getAConversation();
-
     socket.on("receive-message", (data) => {
-      setDiscussion((prevState) => {
-        return [...prevState, data];
-      });
+      setDiscussion(data);
+        // setDiscussion(response.data.conversations);
     });
-    scrollToBottom();
-  }, [socket, discussion]);
-
-  return (
+      scrollToBottom(); 
+    
+  }, [socket, discussion]); 
+  
+  // console.log(!discussion ? console.log("En cours de chargement") : console.log(discussion.map(content => content.messages.map(msg => msg.messageText))));
+  console.log(!discussion ? console.log("En cours de chargement") : console.log(discussion.map(content => content.messageText)));
+   
+  return ( 
     <div className="discussion__main--container">
       {selectedConversation ? (
         <div className="discussion__main--content">
@@ -177,13 +160,23 @@ const Conversation = () => {
                 <div className="imessage" ref={messagesEndRef}>
                   {discussion.map((content) => {
                     return content.sender === userId ? (
-                      <div className="from-me" key={content._id}>
-                        <p>{content.messageText}</p>
-                      </div>
+                      
+                      <div className="from-me-container">
+                        <div className="from-me" key={ content._id }>
+                        <p>{ content.messageText}</p>
+                        </div>
+                        <p className="time">{ moment(content.createdAt).fromNow() }</p>
+                        
+                        </div>
+                      
+                      
                     ) : (
+                        <div className="from-them-container"> 
                       <div className="from-them" key={content._id}>
-                        <p>{content.messageText}</p>
-                      </div>
+                          <p>{ content.messageText }</p>
+                          </div>
+                          <p className="time">{ moment(content.createdAt).fromNow() }</p>
+                          </div>
                     );
                   })}
                 </div>
