@@ -15,14 +15,11 @@ const token = localStorage.getItem("token");
 const UserCard = ({ props }) => {
   const { conversationId } = useContext(UserContext);
 
+
   const createNewConversation = () => {
-    // const members = [userId, props._id];
     axios({
       method: "POST",
-      url: `http://localhost:8000/api/conversations/new`,
-      data: {
-        participants: [userId, props._id],
-      },
+      url: `http://localhost:8000/api/conversations/new/${userId}/${props._id}`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `${token}`,

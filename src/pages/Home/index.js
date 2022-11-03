@@ -1,4 +1,3 @@
-/* eslint-disable arrow-body-style */
 import SideBar from "../../components/SideBar";
 import RecentsMessages from "../../components/RecentMessages";
 import Conversation from "../../components/Conversation";

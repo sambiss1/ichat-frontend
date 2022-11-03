@@ -3,17 +3,19 @@
 /* eslint-disable no-console */
 /* eslint-disable no-alert */
 /* eslint-disable consistent-return */
+/* eslint-disable react/self-closing-comp */
 import { useContext, useEffect, useRef, useState } from "react";
 import { BiSend } from "react-icons/bi";
 import { BsCamera } from "react-icons/bs";
 import axios from "axios";
-
+import Popup from "reactjs-popup";
+import moment from "moment";
+import "reactjs-popup/dist/index.css";
 import "./conversations.css";
 import { UserContext } from "../../Context";
 
 const Conversation = () => {
-  const [message, setMessage] = useState("");
-  const [uploadedImage, setUploadedImage] = useState("");
+  const [message, setMessage] = useState([]);
 
   const messagesEndRef = useRef(null);
 
@@ -27,10 +29,34 @@ const Conversation = () => {
     selectedConversation,
     socket,
     setDiscussion,
+    anError,
+    contactPersonId
   } = useContext(UserContext);
 
+  const [sendingMessage, setSendingMessage] = useState(false);
+
+  const [uploadedImage, setUploadedImage] = useState("");
+ 
+  // uploade image
+  const handleImage = (event) => {
+    setUploadedImage(event.target.files[0]);
+    console.log(uploadedImage);
+  };
+
+  const uploadImage = async () => {
+    const formData = new FormData();
+    formData.append("file", uploadedImage);
+    formData.append("upload_preset", "zaqnqwv4");
+  };
+  
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollTo(0, messagesEndRef.current.scrollHeight);
+  };
   const sendMessage = async (event) => {
     event.preventDefault();
+    uploadImage();
+
+    setSendingMessage(true);
 
     await axios({
       method: "POST",
@@ -46,59 +72,56 @@ const Conversation = () => {
       },
     })
       .then((response) => {
-        alert("Message send : ", response.data.newMessage.messages);
-        setDiscussion((prevState) => {
-          return [...prevState, response.data.newMessage.messages];
-        });
+        // setDiscussion((prevState) => [...prevState, response.data.newMessage.messages]);
+        setDiscussion(response.data.newMessage.messages);
+        setSendingMessage(false);
       })
       .catch((error) => {
         return console.error(error);
       });
-    event.target.reset();
-
+      event.target.reset();
+      
     socket.emit("send-message", { discussion });
-  };
-
+    
+    };
+    
   const getAConversation = async () => {
-    await axios({
-      method: "GET",
-      url: `http://localhost:8000/api/conversations/${conversationId}`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `${token}`,
-      },
-    })
+      await axios({
+        method: "GET",
+        url: `http://localhost:8000/api/conversations/${userId}/${contactPersonId}`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${token}`,
+        },
+      })
       .then((response) => {
         if (response.statusCode === 404) {
           return discussion;
         }
-        setDiscussion(response.data.messages);
+        // setDiscussion((prevState) => [...prevState, response.data.conversations]);
+
+        setDiscussion(response.data.conversations[0].messages);
+        console.log(discussion);
       })
       .catch((error) => {
         return alert(error);
       });
   };
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollTo(0, messagesEndRef.current.scrollHeight);
-  };
   useEffect(() => {
     getAConversation();
-
     socket.on("receive-message", (data) => {
-      setDiscussion((prevState) => {
-        return [...prevState, data];
-      });
+      setDiscussion(data);
+        // setDiscussion(response.data.conversations);
     });
-    scrollToBottom();
-  }, [socket, discussion]);
-
-  const uploadeImage = (e) => {
-    setUploadedImage(e.target.files[0]);
-    console.log(uploadedImage);
-  };
+      scrollToBottom(); 
+    
+  }, [socket, discussion]); 
   
-  return (
+  // console.log(!discussion ? console.log("En cours de chargement") : console.log(discussion.map(content => content.messages.map(msg => msg.messageText))));
+  console.log(!discussion ? console.log("En cours de chargement") : console.log(discussion.map(content => content.messageText)));
+   
+  return ( 
     <div className="discussion__main--container">
       {selectedConversation ? (
         <div className="discussion__main--content">
@@ -113,25 +136,53 @@ const Conversation = () => {
               <p>Online</p>
             </div>
           </div>
-          <div className="discussion__main--content">
-            {!discussion ? (
-              <h3>Loading messages...</h3>
-            ) : (
-              <div className="imessage" ref={messagesEndRef}>
-                {discussion.map((content) => {
-                  return content.sender === userId ? (
-                    <div className="from-me" key={content._id}>
-                      <p>{content.messageText}</p>
-                    </div>
-                  ) : (
-                    <div className="from-them" key={content._id}>
-                      <p>{content.messageText}</p>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
+          { anError ? (
+            
+            <Popup trigger={anError} position="right center">
+                <div>
+                    <h3>An unpexted error occured</h3>
+                <button
+                  onClick={() => {
+                    window.location.reload();
+                    }}
+                    type="button"
+                >
+                Retry please !
+              </button>
+            </div>
+            </Popup>
+            
+          ) : (
+            <div className="discussion__main--content">
+              {!discussion ? (
+                <h3>Loading messages...</h3>
+              ) : (
+                <div className="imessage" ref={messagesEndRef}>
+                  {discussion.map((content) => {
+                    return content.sender === userId ? (
+                      
+                      <div className="from-me-container">
+                        <div className="from-me" key={ content._id }>
+                        <p>{ content.messageText}</p>
+                        </div>
+                        <p className="time">{ moment(content.createdAt).fromNow() }</p>
+                        
+                        </div>
+                      
+                      
+                    ) : (
+                        <div className="from-them-container"> 
+                      <div className="from-them" key={content._id}>
+                          <p>{ content.messageText }</p>
+                          </div>
+                          <p className="time">{ moment(content.createdAt).fromNow() }</p>
+                          </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
           <form onSubmit={sendMessage} className="send__message--form">
             <div className="send__message--content">
               <input
@@ -143,12 +194,12 @@ const Conversation = () => {
                 placeholder="Type message here"
               />
               <div className="send__message--file__container">
-                <label htmlFor="uploaderImage" className="send__message--file">   
+                <label htmlFor="uploaderImage" className="send__message--file">
                   <BsCamera className="send__message--image" />
-                 </label>
+                </label>
                 <input
                   type="file"
-                  onChange={ (event) => uploadeImage(event) }
+                  onChange={(event) => handleImage(event)}
                   name="img"
                   className="send__message--file"
                   id="uploaderImage"
@@ -157,7 +208,15 @@ const Conversation = () => {
               </div>
             </div>
             <button type="submit" className="send__message--button">
-              <BiSend />
+              {sendingMessage ? (
+                <div className="lds-ring">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              ) : (
+                <BiSend />
+              )}
             </button>
           </form>
         </div>

@@ -22,6 +22,7 @@ export const Provider = ({ children }) => {
   const [contactPerson, setContactPerson] = useState({});
   const [discussion, setDiscussion] = useState([]);
   const [username, setUsername] = useState("");
+  const [anError, setAnError] = useState(false);
 
   const socket = socketIOClient(`http://localhost:8000`);
 
@@ -68,6 +69,8 @@ export const Provider = ({ children }) => {
         lastMessage,
         setLastMessage,
         socket,
+        anError,
+        setAnError,
       }}
     >
       {children}
