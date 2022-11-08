@@ -96,10 +96,12 @@ const RecentMessageCard = ({ props }) => {
                 )
             )
           : ""}
-        {props.messages ? (
+
+        {/* { console.log("Last message sent : ", props.messages[props.messages.length - 1])} */}
+        {props.messages.length <= 0 ? (
           <p>...</p>
         ) : (
-          <p>{props.messages.pop().messageText}</p>
+          <p>{props.messages[props.messages.length - 1].messageText}</p>
         )}
       </div>
     </div>
@@ -107,6 +109,7 @@ const RecentMessageCard = ({ props }) => {
 };
 
 const RecentsMessages = () => {
+  const { socket } = useContext(UserContext);
   const [recentMessages, setRecentMessages] = useState([]);
 
   // eslint-disable-next-line no-unused-vars
@@ -114,7 +117,6 @@ const RecentsMessages = () => {
 
   const token = `${localStorage.getItem("token")}`;
   const userId = localStorage.getItem("userID");
-
 
   useEffect(() => {
     const fetchConversation = async () => {
@@ -137,6 +139,12 @@ const RecentsMessages = () => {
     };
 
     fetchConversation();
+
+    socket.on("receive-message", (data) => {
+      console.log("Data from socket : ", data);
+      setRecentMessages(data);
+      // setDiscussion(response.data.conversations);
+    });
   }, []);
 
   return (

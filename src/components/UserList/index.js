@@ -15,7 +15,6 @@ const token = localStorage.getItem("token");
 const UserCard = ({ props }) => {
   const { conversationId } = useContext(UserContext);
 
-
   const createNewConversation = () => {
     axios({
       method: "POST",

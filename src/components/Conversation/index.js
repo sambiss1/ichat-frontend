@@ -4,18 +4,26 @@
 /* eslint-disable no-alert */
 /* eslint-disable consistent-return */
 /* eslint-disable react/self-closing-comp */
+/* eslint-disable prefer-destructuring */
+/* eslint-disable prefer-const */
 import { useContext, useEffect, useRef, useState } from "react";
 import { BiSend } from "react-icons/bi";
 import { BsCamera } from "react-icons/bs";
 import axios from "axios";
 import Popup from "reactjs-popup";
 import moment from "moment";
+// import {AdvancedImage} from "@cloudinary/react";
+
+// import {Cloudinary} from "@cloudinary/url-gen"
 import "reactjs-popup/dist/index.css";
 import "./conversations.css";
 import { UserContext } from "../../Context";
 
 const Conversation = () => {
-  const [message, setMessage] = useState([]);
+  const [message, setMessage] = useState({
+    text: "",
+    image: "",
+  });
 
   const messagesEndRef = useRef(null);
 
@@ -30,25 +38,42 @@ const Conversation = () => {
     socket,
     setDiscussion,
     anError,
-    contactPersonId
+    contactPersonId,
   } = useContext(UserContext);
 
   const [sendingMessage, setSendingMessage] = useState(false);
 
-  const [uploadedImage, setUploadedImage] = useState("");
- 
+  let selectedImage = "";
+
   // uploade image
   const handleImage = (event) => {
-    setUploadedImage(event.target.files[0]);
-    console.log(uploadedImage);
+    selectedImage = event.target.files[0];
+
+    console.log(selectedImage);
+  };
+  const uploadImage = () => {
+    let formData = new FormData();
+    formData.append("file", selectedImage);
+    formData.append("upload_preset", "zaqnqwv4");
+
+    console.log("Form data : ", formData);
+
+    axios({
+      method: "POST",
+      url: " https://api.cloudinary.com/v1_1/dhyk7zned/image/upload",
+      data: formData,
+    })
+      .then((response) => {
+        console.log(response.data.url);
+        // setUploadedImage(response.data.url)
+        setMessage({
+          text: "",
+          image: response.data.url,
+        });
+      })
+      .catch((error) => console.error(error));
   };
 
-  const uploadImage = async () => {
-    const formData = new FormData();
-    formData.append("file", uploadedImage);
-    formData.append("upload_preset", "zaqnqwv4");
-  };
-  
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollTo(0, messagesEndRef.current.scrollHeight);
   };
@@ -58,13 +83,15 @@ const Conversation = () => {
 
     setSendingMessage(true);
 
+    console.log(message.image);
     await axios({
       method: "POST",
       url: `http://localhost:8000/api/message/new`,
       data: {
         conversationId,
         sender: userId,
-        messageText: message,
+        messageText: message.text,
+        messageImage: message.image,
       },
       headers: {
         "Content-Type": "application/json",
@@ -79,29 +106,26 @@ const Conversation = () => {
       .catch((error) => {
         return console.error(error);
       });
-      event.target.reset();
-      
+    event.target.reset();
+
     socket.emit("send-message", { discussion });
-    
-    };
-    
+  };
+
   const getAConversation = async () => {
-      await axios({
-        method: "GET",
-        url: `http://localhost:8000/api/conversations/${userId}/${contactPersonId}`,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `${token}`,
-        },
-      })
+    await axios({
+      method: "GET",
+      url: `http://localhost:8000/api/conversations/${userId}/${contactPersonId}`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token}`,
+      },
+    })
       .then((response) => {
         if (response.statusCode === 404) {
           return discussion;
         }
-        // setDiscussion((prevState) => [...prevState, response.data.conversations]);
 
         setDiscussion(response.data.conversations[0].messages);
-        console.log(discussion);
       })
       .catch((error) => {
         return alert(error);
@@ -112,16 +136,12 @@ const Conversation = () => {
     getAConversation();
     socket.on("receive-message", (data) => {
       setDiscussion(data);
-        // setDiscussion(response.data.conversations);
+      // setDiscussion(response.data.conversations);
     });
-      scrollToBottom(); 
-    
-  }, [socket, discussion]); 
-  
-  // console.log(!discussion ? console.log("En cours de chargement") : console.log(discussion.map(content => content.messages.map(msg => msg.messageText))));
-  console.log(!discussion ? console.log("En cours de chargement") : console.log(discussion.map(content => content.messageText)));
-   
-  return ( 
+    scrollToBottom();
+  }, [socket, discussion]);
+
+  return (
     <div className="discussion__main--container">
       {selectedConversation ? (
         <div className="discussion__main--content">
@@ -136,22 +156,20 @@ const Conversation = () => {
               <p>Online</p>
             </div>
           </div>
-          { anError ? (
-            
+          {anError ? (
             <Popup trigger={anError} position="right center">
-                <div>
-                    <h3>An unpexted error occured</h3>
+              <div>
+                <h3>An unpexted error occured</h3>
                 <button
                   onClick={() => {
                     window.location.reload();
-                    }}
-                    type="button"
+                  }}
+                  type="button"
                 >
-                Retry please !
-              </button>
-            </div>
+                  Retry please !
+                </button>
+              </div>
             </Popup>
-            
           ) : (
             <div className="discussion__main--content">
               {!discussion ? (
@@ -160,23 +178,33 @@ const Conversation = () => {
                 <div className="imessage" ref={messagesEndRef}>
                   {discussion.map((content) => {
                     return content.sender === userId ? (
-                      
                       <div className="from-me-container">
-                        <div className="from-me" key={ content._id }>
-                        <p>{ content.messageText}</p>
+                        <div className="from-me" key={content._id}>
+                          {content.messageImage ? (
+                            <p></p>
+                          ) : (
+                            <img src={content.messageImage} alt="file sended" />
+                          )}
+                          <p>{content.messageText}</p>
                         </div>
-                        <p className="time">{ moment(content.createdAt).fromNow() }</p>
-                        
-                        </div>
-                      
-                      
+                        <p className="time">
+                          {moment(content.createdAt).fromNow()}
+                        </p>
+                      </div>
                     ) : (
-                        <div className="from-them-container"> 
-                      <div className="from-them" key={content._id}>
-                          <p>{ content.messageText }</p>
-                          </div>
-                          <p className="time">{ moment(content.createdAt).fromNow() }</p>
-                          </div>
+                      <div className="from-them-container">
+                        <div className="from-them" key={content._id}>
+                          {content.messageImage ? (
+                            <p></p>
+                          ) : (
+                            <img src={content.messageImage} alt="file sended" />
+                          )}
+                          <p>{content.messageText}</p>
+                        </div>
+                        <p className="time">
+                          {moment(content.createdAt).fromNow()}
+                        </p>
+                      </div>
                     );
                   })}
                 </div>
@@ -188,7 +216,10 @@ const Conversation = () => {
               <input
                 type="text"
                 onChange={(event) => {
-                  return setMessage(event.target.value);
+                  return setMessage({
+                    text: event.target.value,
+                    image: message.image,
+                  });
                 }}
                 className="send__message--text"
                 placeholder="Type message here"
